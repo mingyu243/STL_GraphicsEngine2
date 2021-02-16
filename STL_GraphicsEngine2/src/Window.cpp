@@ -30,6 +30,12 @@ bool Window::InitializeWindow()
 // 윈도우 생성 및 초기화.
 bool Window::InitializeWindow(HINSTANCE hInstance, int width, int height, std::wstring title)
 {
+	// 변수 값 설정.
+	Window::hInstance = hInstance;
+	Window::width = width;
+	Window::height = height;
+	Window::title = title;
+
 	// 윈도우 클래스 생성.
 	WNDCLASS wc;
 	ZeroMemory(&wc, sizeof(wc)); // 모두 0으로 초기화.
