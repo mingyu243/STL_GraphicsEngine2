@@ -9,6 +9,15 @@ std::wstring Window::title;
 // 윈도우 메시지 처리할 때 사용할 프로시저 함수.
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	// 창이 닫히면 프로그램 종료.
+	switch (msg)
+	{
+	case WM_DESTROY:
+		// 종료 메시지 발생 시킴.
+		PostQuitMessage(0);
+		return 0;
+	}
+
 	// 기본 윈도우 프로시저 함수 호출. (기본 메시지는 윈도우에 맡김.)
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
