@@ -16,10 +16,18 @@ public:
 	);
 
 	static HINSTANCE Instance();
+	static void SetInstance(HINSTANCE hInstance);
+
 	static HWND WindowHandle();
+
 	static int Width();
+	static void SetWidth(int width);
+
 	static int Height();
+	static void SetHeight(int height);
+
 	static std::wstring Title();
+	static void SetTitle(std::wstring title);
 
 private:
 	static HINSTANCE hInstance;

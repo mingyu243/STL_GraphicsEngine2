@@ -95,6 +95,11 @@ HINSTANCE Window::Instance()
 	return hInstance;
 }
 
+void Window::SetInstance(HINSTANCE hInstance)
+{
+	Window::hInstance = hInstance;
+}
+
 HWND Window::WindowHandle()
 {
 	return hwnd;
@@ -105,12 +110,27 @@ int Window::Width()
 	return width;
 }
 
+void Window::SetWidth(int width)
+{
+	Window::width = width;
+}
+
 int Window::Height()
 {
 	return height;
 }
 
+void Window::SetHeight(int height)
+{
+	Window::height = height;
+}
+
 std::wstring Window::Title()
 {
 	return title;
+}
+
+void Window::SetTitle(std::wstring title)
+{
+	Window::title = title;
 }
