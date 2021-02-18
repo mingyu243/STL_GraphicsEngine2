@@ -58,6 +58,15 @@ void Engine::Update()
 
 void Engine::DrawScene()
 {
+    // 색상 고르기.
+    float backgroundColor[4] = { 0.1f, 0.5f, 0.1f, 1.0f };
+    
+    // 지우기 (Clear) - 실제로는 덮어씌워서 색칠하기.
+    // Begin Draw(Render) - DX9.
+    deviceContext->ClearRenderTargetView(renderTargetView, backgroundColor);
+
+    // 프레임 바꾸기. FrontBuffer <-> BackBuffer.
+    swapChain->Present(1, 0);
 }
 
 bool Engine::InitializeScene()

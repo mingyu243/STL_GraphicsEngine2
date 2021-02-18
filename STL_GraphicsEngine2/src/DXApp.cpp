@@ -109,7 +109,7 @@ bool DXApp::InitializeDirect3D()
     backbufferTexture->Release(); // delete 키워드와 하는 일이 같지만, Release로 해야 안전하게 해제 가능.
 
     // 렌더 타겟 뷰 할당.(설정)
-    deviceContext->OMSetRenderTargets( // OM : Output Merge 합쳐준다는 의미. 얘는 성공 실패 반환 안 함.
+    deviceContext->OMSetRenderTargets( // OM : Output Merger 합쳐준다는 의미. 얘는 성공 실패 반환 안 함.
         1, // 화면을 4개로 나눈다면, 4가 입력됨.
         &renderTargetView,
         nullptr
@@ -125,7 +125,7 @@ bool DXApp::InitializeDirect3D()
     viewport.MaxDepth = 1.0f;
 
     // 뷰포트 할당.
-    deviceContext->RSSetViewports(1, &viewport);
+    deviceContext->RSSetViewports(1, &viewport); // RS : 레스터라이져
 
     return true;
 }
