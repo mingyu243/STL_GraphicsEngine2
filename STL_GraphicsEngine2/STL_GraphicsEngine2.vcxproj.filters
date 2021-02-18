@@ -39,4 +39,8 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\shaders\BasicPS.hlsl" />
+    <FxCompile Include="..\shaders\BasicVS.hlsl" />
+  </ItemGroup>
 </Project>
