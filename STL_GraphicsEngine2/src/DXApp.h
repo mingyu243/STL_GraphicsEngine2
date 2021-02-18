@@ -29,6 +29,5 @@ protected:
 	ID3D11RenderTargetView* renderTargetView;	// ·»´õÅ¸°Ù.
 
 	D3D11_VIEWPORT viewport;					// ºäÆ÷Æ® (È­¸é)
-
 };
 

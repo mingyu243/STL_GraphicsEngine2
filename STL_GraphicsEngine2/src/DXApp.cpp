@@ -34,13 +34,14 @@ bool DXApp::InitializeDirect3D()
     // DeviceContext - 값, 장치 설정.
     // SwapChain - 표시.
 
+    // 스왑 체인 정보 설정. 설정양이 너무 많아서 구조체로 나눠놓았음.
     DXGI_SWAP_CHAIN_DESC swapChainDesc;
     ZeroMemory(&swapChainDesc, sizeof(swapChainDesc));
-    swapChainDesc.BufferCount = 1;                          // 백버퍼 1개. Double Buffering. Screen Tearing.
-    swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;    // 사용 목적.
+    swapChainDesc.BufferCount = 1;                          // 백버퍼 1개. Double Buffering. Screen Tearing. 프론트버퍼, 백퍼버 합쳐서 총 2개 쓴다는 뜻.
+    swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;    // 사용 목적. 화면 출력용으로 쓴다는 뜻.
     swapChainDesc.OutputWindow = Window::WindowHandle();    // 출력할 윈도우 설정.
     swapChainDesc.Windowed = true;                          // 창 모드 설정.
-    swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;    // 효과 없음 (안 씀).
+    swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;    // 프론트버퍼와 백버퍼를 바꿀 때, 효과 안 쓴다는 뜻. (요즘엔 빨라서 안 씀).
 
     swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;   // 타입. RGBA를 8비트씩 써라. (0~255 값.) UNORM은 정규화. (0~255 값을 0~1로 바꿈.)
     swapChainDesc.BufferDesc.Width = Window::Width();               // 너비.
@@ -52,7 +53,7 @@ bool DXApp::InitializeDirect3D()
     // 장치 생성.
     HRESULT result = D3D11CreateDeviceAndSwapChain(
         nullptr,
-        D3D_DRIVER_TYPE_HARDWARE, // 요즘엔 이거만 씀. 옛날 꺼 호환한다고 남아 있음.
+        D3D_DRIVER_TYPE_HARDWARE, // 그래픽 가속기. 요즘엔 이거만 씀. 옛날 꺼 호환한다고 남아 있음.
         nullptr,
         0,
         nullptr,
@@ -92,9 +93,9 @@ bool DXApp::InitializeDirect3D()
     // 렌더 타겟 뷰(View)
     // 백버퍼에 직접 접근하지 못하기 때문에 뷰를 통해 정보 전달.
     result = device->CreateRenderTargetView(
-        backbufferTexture,
+        backbufferTexture, // 여기에 정보 있고,
         nullptr,
-        &renderTargetView
+        &renderTargetView // 거기에 맞춰서 생성해달라.
     );
 
     // 오류 검사.
@@ -104,11 +105,11 @@ bool DXApp::InitializeDirect3D()
         return false;
     }
 
-    // 임시 버퍼 해제.
+    // 임시 버퍼(리소스) 해제.
     backbufferTexture->Release(); // delete 키워드와 하는 일이 같지만, Release로 해야 안전하게 해제 가능.
 
     // 렌더 타겟 뷰 할당.(설정)
-    deviceContext->OMSetRenderTargets( // OM : Output Merge 합쳐준다는 의미.
+    deviceContext->OMSetRenderTargets( // OM : Output Merge 합쳐준다는 의미. 얘는 성공 실패 반환 안 함.
         1, // 화면을 4개로 나눈다면, 4가 입력됨.
         &renderTargetView,
         nullptr
