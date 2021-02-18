@@ -151,11 +151,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\DXApp.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Engine.h" />
     <ClInclude Include="src\DXApp.h" />
     <ClInclude Include="src\Window.h" />
   </ItemGroup>

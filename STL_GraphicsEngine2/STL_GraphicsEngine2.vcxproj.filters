@@ -24,12 +24,18 @@
     <ClCompile Include="src\DXApp.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="src\Engine.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Window.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="src\DXApp.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
