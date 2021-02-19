@@ -151,15 +151,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Mesh.cpp" />
+    <ClCompile Include="src\PixelShader.cpp" />
+    <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\DXApp.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Vertex.cpp" />
     <ClCompile Include="src\Window.cpp" />
+    <ClCompile Include="src\VertexShader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Mesh.h" />
+    <ClInclude Include="src\PixelShader.h" />
+    <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\Engine.h" />
     <ClInclude Include="src\DXApp.h" />
+    <ClInclude Include="src\Vertex.h" />
     <ClInclude Include="src\Window.h" />
+    <ClInclude Include="src\VertexShader.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\shaders\BasicPS.hlsl">

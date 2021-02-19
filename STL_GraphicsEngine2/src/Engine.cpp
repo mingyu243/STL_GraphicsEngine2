@@ -1,6 +1,8 @@
 #include "Engine.h"
 #include <d3dcompiler.h>
 
+#include "Vertex.h"
+
 Engine::Engine(HINSTANCE hInstance, int width, int height, std::wstring title)
     : DXApp(hInstance, width, height, title)
 {
@@ -66,87 +68,46 @@ void Engine::DrawScene()
     // Begin Draw(Render) - DX9.
     deviceContext->ClearRenderTargetView(renderTargetView, backgroundColor);
 
+    // 그리기 준비.
+    vertexShader.Bind(deviceContext);
+    pixelShader.Bind(deviceContext);
+
+    // 그리기.
+    mesh.RenderBuffers(deviceContext);
+
     // 프레임 바꾸기. FrontBuffer <-> BackBuffer.
     swapChain->Present(1, 0);
 }
 
 bool Engine::InitializeScene()
 {
-    // VS 컴파일
-    HRESULT result = D3DCompileFromFile(
-        L"..//shaders//BasicVS.hlsl",
-        NULL,
-        NULL,
-        "main", // wchar(와일드 캐릭터) 아니라서 L 안 붙여도 됨.
-        "vs_5_0",
-        NULL,
-        NULL,
-        &vertexShaderBuffer, // 컴파일 된 이진코드를 받아올 버퍼.
-        NULL
-    );
-    if (FAILED(result)) { MessageBox(nullptr, L"정점 쉐이더 컴파일 실패", L"오류", 0); }
+    vertexShader = VertexShader(L"..//shaders//BasicVS.hlsl", "main", "vs_5_0");
+    pixelShader = PixelShader(L"..//shaders//BasicPS.hlsl", "main", "ps_5_0");
 
-    // VS 생성.
-    result = device->CreateVertexShader(
-        vertexShaderBuffer->GetBufferPointer(), // 시작 지점 주소.
-        vertexShaderBuffer->GetBufferSize(), // 얼마만큼 읽을 지.
-        nullptr,
-        &vertexShader
-    );
-    if (FAILED(result)) { MessageBox(nullptr, L"정점 쉐이더 생성 실패", L"오류", 0); }
-
-    // VS랑 하는 방식은 똑같음. 파일명이랑 변수명만 조금씩 바꿔주자.
-    // PS 컴파일.
-    result = D3DCompileFromFile(
-        L"..//shaders//BasicPS.hlsl",
-        NULL,
-        NULL,
-        "main",
-        "ps_5_0",
-        NULL,
-        NULL,
-        &pixelShaderBuffer,
-        NULL
-    );
-    if (FAILED(result)) { MessageBox(nullptr, L"픽셀 쉐이더 컴파일 실패", L"오류", 0); }
-
-    // PS 생성.
-    result = device->CreatePixelShader(
-        pixelShaderBuffer->GetBufferPointer(),
-        pixelShaderBuffer->GetBufferSize(),
-        nullptr,
-        &pixelShader
-    );
-    if (FAILED(result)) { MessageBox(nullptr, L"픽셀 쉐이더 생성 실패", L"오류", 0); }
-
-    // 정점 데이터 만들기.
-
-    // 정점 데이터 설정하기.
-
-    // 정점에 대한 명세 만들기 (입력 레이아웃).
-    //LPCSTR SemanticName;
-    //UINT SemanticIndex;
-    //DXGI_FORMAT Format;
-    //UINT InputSlot;
-    //UINT AlignedByteOffset;
-    //D3D11_INPUT_CLASSIFICATION InputSlotClass;
-    //UINT InstanceDataStepRate;
-    D3D11_INPUT_ELEMENT_DESC layout[] =
+    // 컴파일
+    if (vertexShader.Compile(device) == false)
     {
-        {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0}
-    };
+        return false;
+    }
+    if (pixelShader.Compile(device) == false)
+    {
+        return false;
+    }
+    // 생성
+    if (vertexShader.Create(device) == false)
+    {
+        return false;
+    }
+    if (pixelShader.Create(device) == false)
+    {
+        return false;
+    }
 
-    // 입력 레이아웃 설정.
-    result = device->CreateInputLayout(
-        layout,
-        ARRAYSIZE(layout),
-        vertexShaderBuffer->GetBufferPointer(),
-        vertexShaderBuffer->GetBufferSize(),
-        &inputLayout
-    );
-    if (FAILED(result)) { MessageBox(nullptr, L"입력 레이아웃 생성 실패", L"오류", 0); }
-
-    // 명세 설정하기.
+    // 메쉬 초기화
+    if (mesh.InitializeBuffers(device, vertexShader.ShaderBuffer()) == false)
+    {
+        return false;
+    }
 
     return true;
 }

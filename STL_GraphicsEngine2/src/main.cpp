@@ -17,5 +17,5 @@ int WINAPI WinMain(
 	}
 	
 	//  ½ÇÇà.
-	engine.Run();
+	return engine.Run();
 }
