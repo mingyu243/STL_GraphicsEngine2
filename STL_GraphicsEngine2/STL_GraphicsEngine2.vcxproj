@@ -74,21 +74,25 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\bin\intermediate\$(Platform)\$(Configuration)\</IntDir>
+    <IncludePath>$(ProjectDir)src\public;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\bin\intermediate\$(Platform)\$(Configuration)\</IntDir>
+    <IncludePath>$(ProjectDir)src\public;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\bin\intermediate\$(Platform)\$(Configuration)\</IntDir>
+    <IncludePath>$(ProjectDir)src\public;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\bin\intermediate\$(Platform)\$(Configuration)\</IntDir>
+    <IncludePath>$(ProjectDir)src\public;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -102,6 +106,11 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>if not exist $(OutDir)..\shaders mkdir $(OutDir)..\shaders
+
+copy $(SolutionDir)\shaders\* $(OutDir)..\shaders\</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -119,6 +128,11 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>if not exist $(OutDir)..\shaders mkdir $(OutDir)..\shaders
+
+copy $(SolutionDir)\shaders\* $(OutDir)..\shaders\</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -132,6 +146,11 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>if not exist $(OutDir)..\shaders mkdir $(OutDir)..\shaders
+
+copy $(SolutionDir)\shaders\* $(OutDir)..\shaders\</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -149,27 +168,32 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>if not exist $(OutDir)..\shaders mkdir $(OutDir)..\shaders
+
+copy $(SolutionDir)\shaders\* $(OutDir)..\shaders\</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Mesh.cpp" />
-    <ClCompile Include="src\PixelShader.cpp" />
-    <ClCompile Include="src\Shader.cpp" />
-    <ClCompile Include="src\Engine.cpp" />
-    <ClCompile Include="src\DXApp.cpp" />
+    <ClCompile Include="src\private\Mesh.cpp" />
+    <ClCompile Include="src\private\PixelShader.cpp" />
+    <ClCompile Include="src\private\Shader.cpp" />
+    <ClCompile Include="src\private\Engine.cpp" />
+    <ClCompile Include="src\private\DXApp.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Vertex.cpp" />
-    <ClCompile Include="src\Window.cpp" />
-    <ClCompile Include="src\VertexShader.cpp" />
+    <ClCompile Include="src\private\Vertex.cpp" />
+    <ClCompile Include="src\private\Window.cpp" />
+    <ClCompile Include="src\private\VertexShader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Mesh.h" />
-    <ClInclude Include="src\PixelShader.h" />
-    <ClInclude Include="src\Shader.h" />
-    <ClInclude Include="src\Engine.h" />
-    <ClInclude Include="src\DXApp.h" />
-    <ClInclude Include="src\Vertex.h" />
-    <ClInclude Include="src\Window.h" />
-    <ClInclude Include="src\VertexShader.h" />
+    <ClInclude Include="src\public\Mesh.h" />
+    <ClInclude Include="src\public\PixelShader.h" />
+    <ClInclude Include="src\public\Shader.h" />
+    <ClInclude Include="src\public\Engine.h" />
+    <ClInclude Include="src\public\DXApp.h" />
+    <ClInclude Include="src\public\Vertex.h" />
+    <ClInclude Include="src\public\Window.h" />
+    <ClInclude Include="src\public\VertexShader.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\shaders\BasicPS.hlsl">

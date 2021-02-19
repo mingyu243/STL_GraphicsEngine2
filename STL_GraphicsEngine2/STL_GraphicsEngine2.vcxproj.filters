@@ -18,54 +18,54 @@
     <ClCompile Include="src\main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\Window.cpp">
+    <ClCompile Include="src\private\DXApp.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\DXApp.cpp">
+    <ClCompile Include="src\private\Engine.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine.cpp">
+    <ClCompile Include="src\private\Mesh.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\Vertex.cpp">
+    <ClCompile Include="src\private\PixelShader.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\Shader.cpp">
+    <ClCompile Include="src\private\Shader.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\VertexShader.cpp">
+    <ClCompile Include="src\private\Vertex.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\PixelShader.cpp">
+    <ClCompile Include="src\private\VertexShader.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\Mesh.cpp">
+    <ClCompile Include="src\private\Window.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Window.h">
+    <ClInclude Include="src\public\DXApp.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="src\DXApp.h">
+    <ClInclude Include="src\public\Engine.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="src\Engine.h">
+    <ClInclude Include="src\public\Mesh.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="src\Vertex.h">
+    <ClInclude Include="src\public\PixelShader.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="src\Shader.h">
+    <ClInclude Include="src\public\Shader.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="src\VertexShader.h">
+    <ClInclude Include="src\public\Vertex.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="src\PixelShader.h">
+    <ClInclude Include="src\public\VertexShader.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="src\Mesh.h">
+    <ClInclude Include="src\public\Window.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
