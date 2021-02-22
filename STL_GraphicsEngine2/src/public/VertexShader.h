@@ -1,6 +1,9 @@
 #pragma once
 
 #include "Shader.h"
+#include <wrl.h>
+
+using Microsoft::WRL::ComPtr;
 
 class VertexShader : public Shader
 {
@@ -14,9 +17,9 @@ public:
 	bool Create(ID3D11Device* device) override;
 	void Bind(ID3D11DeviceContext* deviceContext) override;
 
-	ID3D11VertexShader* GetVertexShader() { return vertexShader; }
+	ID3D11VertexShader* GetVertexShader() { return vertexShader.Get(); }
 
 private:
-	ID3D11VertexShader* vertexShader;
+	ComPtr<ID3D11VertexShader> vertexShader;
 };
 

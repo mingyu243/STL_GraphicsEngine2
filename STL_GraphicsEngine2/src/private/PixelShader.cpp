@@ -33,7 +33,7 @@ bool PixelShader::Compile(ID3D11Device* device)
         profile.c_str(),
         NULL,
         NULL,
-        &shaderBuffer,
+        shaderBuffer.GetAddressOf(),
         NULL
     );
     if (FAILED(result)) 
@@ -52,7 +52,7 @@ bool PixelShader::Create(ID3D11Device* device)
         shaderBuffer->GetBufferPointer(), // 시작 지점 주소.
         shaderBuffer->GetBufferSize(), // 얼마만큼 읽을 지.
         nullptr,
-        &pixelShader
+        pixelShader.GetAddressOf()
     );
     if (FAILED(result)) 
     { 
@@ -65,5 +65,5 @@ bool PixelShader::Create(ID3D11Device* device)
 
 void PixelShader::Bind(ID3D11DeviceContext* deviceContext)
 {
-    deviceContext->PSSetShader(pixelShader, NULL, NULL);
+    deviceContext->PSSetShader(pixelShader.Get(), NULL, NULL);
 }

@@ -68,31 +68,31 @@ void Engine::DrawScene()
     
     // 지우기 (Clear) - 실제로는 덮어씌워서 색칠하기.
     // Begin Draw(Render) - DX9.
-    deviceContext->ClearRenderTargetView(renderTargetView, backgroundColor);
+    deviceContext.Get()->ClearRenderTargetView(renderTargetView.Get(), backgroundColor);
 
     // 그리기 준비.
-    BasicShader::Bind(deviceContext);
+    BasicShader::Bind(deviceContext.Get());
 
     // 그리기.
-    mesh.RenderBuffers(deviceContext);
+    mesh.RenderBuffers(deviceContext.Get());
 
     // 프레임 바꾸기. FrontBuffer <-> BackBuffer.
-    swapChain->Present(1, 0);
+    swapChain.Get()->Present(1, 0);
 }
 
 bool Engine::InitializeScene()
 {
-    if (BasicShader::Compile(device) == false)
+    if (BasicShader::Compile(device.Get()) == false)
     {
         return false;
     }
-    if (BasicShader::Create(device) == false)
+    if (BasicShader::Create(device.Get()) == false)
     {
         return false;
     }
 
     // 메쉬 초기화
-    if (mesh.InitializeBuffers(device, BasicShader::ShaderBuffer()) == false)
+    if (mesh.InitializeBuffers(device.Get(), BasicShader::ShaderBuffer()) == false)
     {
         return false;
     }

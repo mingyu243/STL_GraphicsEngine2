@@ -60,10 +60,10 @@ bool DXApp::InitializeDirect3D()
         0,
         D3D11_SDK_VERSION,
         &swapChainDesc,
-        &swapChain,
-        &device,
+        swapChain.GetAddressOf(),
+        device.GetAddressOf(),
         NULL,
-        &deviceContext
+        deviceContext.GetAddressOf()
     );
 
     // 오류 검사.
@@ -77,7 +77,7 @@ bool DXApp::InitializeDirect3D()
     // 우리는 백버퍼에 바로 못 그림. View를 통해 간접적으로 접근함.
     // 백버퍼 정보를 복사해서 주니까 받자.
     ID3D11Texture2D* backbufferTexture;
-    result = swapChain->GetBuffer(
+    result = swapChain.Get()->GetBuffer(
         NULL,
         __uuidof(ID3D11Texture2D), // 타입 정보 명시. uuidof : 여기에 백퍼버 정보 달라.
         (void**)(&backbufferTexture) // 타입에 상관없이 주소값을 받고 싶을 때 void 포인터.
@@ -92,10 +92,10 @@ bool DXApp::InitializeDirect3D()
 
     // 렌더 타겟 뷰(View)
     // 백버퍼에 직접 접근하지 못하기 때문에 뷰를 통해 정보 전달.
-    result = device->CreateRenderTargetView(
+    result = device.Get()->CreateRenderTargetView(
         backbufferTexture, // 여기에 정보 있고,
         nullptr,
-        &renderTargetView // 거기에 맞춰서 생성해달라.
+        renderTargetView.GetAddressOf() // 거기에 맞춰서 생성해달라.
     );
 
     // 오류 검사.
@@ -109,9 +109,9 @@ bool DXApp::InitializeDirect3D()
     backbufferTexture->Release(); // delete 키워드와 하는 일이 같지만, Release로 해야 안전하게 해제 가능.
 
     // 렌더 타겟 뷰 할당.(설정)
-    deviceContext->OMSetRenderTargets( // OM : Output Merger 합쳐준다는 의미. 얘는 성공 실패 반환 안 함.
+    deviceContext.Get()->OMSetRenderTargets( // OM : Output Merger 합쳐준다는 의미. 얘는 성공 실패 반환 안 함.
         1, // 화면을 4개로 나눈다면, 4가 입력됨.
-        &renderTargetView,
+        renderTargetView.GetAddressOf(),
         nullptr
     );
 
@@ -125,7 +125,7 @@ bool DXApp::InitializeDirect3D()
     viewport.MaxDepth = 1.0f;
 
     // 뷰포트 할당.
-    deviceContext->RSSetViewports(1, &viewport); // RS : 레스터라이져
+    deviceContext.Get()->RSSetViewports(1, &viewport); // RS : 레스터라이져
 
     return true;
 }

@@ -42,7 +42,7 @@ bool Mesh::InitializeBuffers(ID3D11Device* device, ID3DBlob* vertexShaderBuffer)
     HRESULT result = device->CreateBuffer(
         &vertexBufferDesc,
         &vertexBufferData,
-        &vertexBuffer
+        vertexBuffer.GetAddressOf()
     );
     if (FAILED(result)) 
     { 
@@ -62,7 +62,7 @@ bool Mesh::InitializeBuffers(ID3D11Device* device, ID3DBlob* vertexShaderBuffer)
         ARRAYSIZE(layout),
         vertexShaderBuffer->GetBufferPointer(),
         vertexShaderBuffer->GetBufferSize(),
-        &inputLayout
+        inputLayout.GetAddressOf()
     );
     if (FAILED(result)) 
     { 
@@ -80,8 +80,8 @@ void Mesh::RenderBuffers(ID3D11DeviceContext* deviceContext)
     unsigned int stride = sizeof(Vertex); // 한번에 몇 개씩 읽을 지. XYZ니까 *3.
     unsigned int offset = 0;
 
-    deviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
-    deviceContext->IASetInputLayout(inputLayout);
+    deviceContext->IASetVertexBuffers(0, 1, vertexBuffer.GetAddressOf(), &stride, &offset);
+    deviceContext->IASetInputLayout(inputLayout.Get());
     deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 선을 그릴 때는 LineList.
 
     // Draw

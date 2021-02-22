@@ -33,7 +33,7 @@ bool VertexShader::Compile(ID3D11Device* device)
         profile.c_str(),
         NULL,
         NULL,
-        &shaderBuffer,
+        shaderBuffer.GetAddressOf(),
         NULL
     );
     if (FAILED(result)) { MessageBox(nullptr, L"정점 쉐이더 컴파일 실패", L"오류", 0); }
@@ -48,7 +48,7 @@ bool VertexShader::Create(ID3D11Device* device)
         shaderBuffer->GetBufferPointer(), // 시작 지점 주소.
         shaderBuffer->GetBufferSize(), // 얼마만큼 읽을 지.
         nullptr,
-        &vertexShader
+        vertexShader.GetAddressOf()
     );
     if (FAILED(result)) { MessageBox(nullptr, L"정점 쉐이더 생성 실패", L"오류", 0); }
 
@@ -57,5 +57,5 @@ bool VertexShader::Create(ID3D11Device* device)
 
 void VertexShader::Bind(ID3D11DeviceContext* deviceContext)
 {
-    deviceContext->VSSetShader(vertexShader, NULL, NULL);
+    deviceContext->VSSetShader(vertexShader.Get(), NULL, NULL);
 }

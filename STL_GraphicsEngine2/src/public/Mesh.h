@@ -2,6 +2,9 @@
 
 #include "Vertex.h"
 #include <d3d11.h>
+#include <wrl.h>
+
+using Microsoft::WRL::ComPtr;
 
 class Mesh
 {
@@ -14,7 +17,7 @@ public:
 
 private:
 	int vertexCount;				// 정점 개수.
-	ID3D11Buffer* vertexBuffer;		// 정점 버퍼.
-	ID3D11InputLayout* inputLayout; // 입력 레이아웃.
+	ComPtr<ID3D11Buffer> vertexBuffer;		// 정점 버퍼.
+	ComPtr<ID3D11InputLayout> inputLayout; // 입력 레이아웃.
 };
 

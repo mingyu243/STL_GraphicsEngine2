@@ -2,8 +2,9 @@
 
 #include "Window.h"
 #include <d3d11.h>
+#include <wrl.h>
 
-//#pragma comment(lib, "d3d11.lib")
+using Microsoft::WRL::ComPtr;
 
 class DXApp
 {
@@ -23,10 +24,12 @@ protected:
 
 	bool InitializeDirect3D();
 
-	ID3D11Device* device;						// d3d 장치.
-	ID3D11DeviceContext* deviceContext;			// d3d 장치문맥.
-	IDXGISwapChain* swapChain;					// 스왑체인.
-	ID3D11RenderTargetView* renderTargetView;	// 렌더타겟.
+	// 스마트 포인터 사용
+	ComPtr<ID3D11Device> device;
+	ComPtr<ID3D11DeviceContext> deviceContext;
+	ComPtr<IDXGISwapChain> swapChain;
+
+	ComPtr<ID3D11RenderTargetView> renderTargetView;	// 렌더타겟.
 
 	D3D11_VIEWPORT viewport;					// 뷰포트 (화면)
 };

@@ -2,6 +2,9 @@
 
 #include <string>
 #include <d3d11.h>
+#include <wrl.h>
+
+using Microsoft::WRL::ComPtr;
 
 class Shader
 {
@@ -20,14 +23,14 @@ public:
 	std::string Entry() { return entry; }
 	std::string Profile() { return profile; }
 
-	ID3DBlob* ShaderBuffer() { return shaderBuffer; }
+	ID3DBlob* ShaderBuffer() { return shaderBuffer.Get(); }
 
 protected:
 	std::wstring filename;			// 쉐이더 파일 이름.
 	std::string entry;				// main 함수.
 	std::string profile;			// 쉐이더 버전 정보. (ex: vs_5_0)
 
-	ID3DBlob* shaderBuffer;			// 쉐이더 코드를 컴파일한 이진 코드가 저장되는 버퍼.
+	ComPtr<ID3DBlob> shaderBuffer;			// 쉐이더 코드를 컴파일한 이진 코드가 저장되는 버퍼.
 
 };
 
