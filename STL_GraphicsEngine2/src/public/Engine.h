@@ -21,9 +21,6 @@ private:
 	// 장면 초기화.
 	bool InitializeScene();
 
-	VertexShader vertexShader;
-	PixelShader pixelShader;
 	Mesh mesh;
-
 };
 
