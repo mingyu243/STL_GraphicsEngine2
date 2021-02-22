@@ -185,6 +185,7 @@ copy $(SolutionDir)\shaders\* $(OutDir)..\shaders\</Command>
     <ClCompile Include="src\private\Vertex.cpp" />
     <ClCompile Include="src\private\Window.cpp" />
     <ClCompile Include="src\private\VertexShader.cpp" />
+    <ClCompile Include="src\private\Vector3f.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\public\BasicShader.h" />
@@ -196,6 +197,7 @@ copy $(SolutionDir)\shaders\* $(OutDir)..\shaders\</Command>
     <ClInclude Include="src\public\Vertex.h" />
     <ClInclude Include="src\public\Window.h" />
     <ClInclude Include="src\public\VertexShader.h" />
+    <ClInclude Include="src\public\Vector3f.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\shaders\BasicPS.hlsl">
