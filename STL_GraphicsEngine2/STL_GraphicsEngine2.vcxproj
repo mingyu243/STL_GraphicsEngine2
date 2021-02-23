@@ -176,28 +176,36 @@ copy $(SolutionDir)\shaders\* $(OutDir)..\shaders\</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\private\BasicShader.cpp" />
+    <ClCompile Include="src\private\MathUtil.cpp" />
+    <ClCompile Include="src\private\Matrix4f.cpp" />
     <ClCompile Include="src\private\Mesh.cpp" />
     <ClCompile Include="src\private\PixelShader.cpp" />
     <ClCompile Include="src\private\Shader.cpp" />
     <ClCompile Include="src\private\Engine.cpp" />
     <ClCompile Include="src\private\DXApp.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\private\Vector2f.cpp" />
     <ClCompile Include="src\private\Vertex.cpp" />
     <ClCompile Include="src\private\Window.cpp" />
     <ClCompile Include="src\private\VertexShader.cpp" />
     <ClCompile Include="src\private\Vector3f.cpp" />
+    <ClCompile Include="src\private\TransformBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\public\BasicShader.h" />
+    <ClInclude Include="src\public\MathUtil.h" />
+    <ClInclude Include="src\public\Matrix4f.h" />
     <ClInclude Include="src\public\Mesh.h" />
     <ClInclude Include="src\public\PixelShader.h" />
     <ClInclude Include="src\public\Shader.h" />
     <ClInclude Include="src\public\Engine.h" />
     <ClInclude Include="src\public\DXApp.h" />
+    <ClInclude Include="src\public\Vector2f.h" />
     <ClInclude Include="src\public\Vertex.h" />
     <ClInclude Include="src\public\Window.h" />
     <ClInclude Include="src\public\VertexShader.h" />
     <ClInclude Include="src\public\Vector3f.h" />
+    <ClInclude Include="src\public\TransformBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\shaders\BasicPS.hlsl">

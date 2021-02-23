@@ -1,9 +1,30 @@
-// 정점 쉐이더.
-float4 main(float4 position : POSITION) : SV_POSITION
+// 행렬 데이터.
+// Constant Buffer. (상수 버퍼.)
+cbuffer transform : register(b0)
 {
-	return position;
-}
+	// 4x4 행렬. 
+	// float4x4, float3x3, float2x2
+	matrix world;
+};
 
-// float4 main(float4 position  // IA에서 포지션을 받아 옴. 나중에 복잡해지면 구조체로 만들어서 받을 수 있음.
-// : POSITION)	// 지금은 포지션 하나만 받아왔으니까 이게 Position을 뜻하는 거라고 알려줌. 시멘틱.
-// : SV_POSITION  // 시스템에게 이게 Position을 뜻하는 거라고 알려줌. SV : 시스템 벨류.
+// 정점 입력.
+struct vs_input
+{
+	float4 position : POSITION;
+};
+
+// 정점 출력.
+struct vs_output
+{
+	float4 position : SV_POSITION;
+};
+
+// float4 main(float4 position : POSITION) : SV_POSITION
+// float4 main(vs_input input) : SV_POSITION
+vs_output main(vs_input input)
+{
+	vs_output output;
+	output.position = mul(input.position, world);
+
+	return output;
+}

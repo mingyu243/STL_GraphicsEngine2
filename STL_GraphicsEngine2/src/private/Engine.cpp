@@ -59,6 +59,49 @@ int Engine::Run()
 
 void Engine::Update()
 {
+    // 행렬 업데이트.
+    static float xPos = 0.0f;
+    static float direction = 1.0f;
+    xPos = xPos + (0.01f * direction);
+
+    if (xPos > 1.0f)
+    {
+        direction = -1.0f;
+    }
+    if (xPos < -1.0f)
+    {
+        direction = 1.0f;
+    }
+
+    // 스케일.
+    static float scale = 0.5f;
+    static float scaleDirection = 1.0f;
+    scale = scale + (0.01f * scaleDirection);
+
+    if (scale > 1.5f)
+    {
+        scaleDirection = -1.0f;
+    }
+    if (scale < 0.5f)
+    {
+        scaleDirection = 1.0f;
+    }
+
+    // 회전.
+    static float zRot = 0.0f;
+    static float rotationDirection = 1.0f;
+    zRot = zRot + (1.0f * rotationDirection);
+
+    if (zRot >= 360.0f)
+    {
+        zRot = 0.0f;
+    }
+
+    mesh.SetPosition(xPos, 0.0f, 0.0f);
+    mesh.SetRotation(0.0f, 0.0f, zRot);
+    mesh.SetScale(scale, scale, 1.0f);
+
+    mesh.UpdateBuffers(deviceContext.Get());
 }
 
 void Engine::DrawScene()

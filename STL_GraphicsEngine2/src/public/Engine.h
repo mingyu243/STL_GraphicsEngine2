@@ -3,6 +3,10 @@
 #include "VertexShader.h"
 #include "PixelShader.h"
 #include "Mesh.h"
+#include "Matrix4f.h"
+#include <wrl.h>
+
+using Microsoft::WRL::ComPtr;
 
 class Engine : public DXApp
 {
