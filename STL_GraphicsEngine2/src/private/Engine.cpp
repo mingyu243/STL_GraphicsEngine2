@@ -59,49 +59,50 @@ int Engine::Run()
 
 void Engine::Update()
 {
-    // 행렬 업데이트.
-    static float xPos = 0.0f;
-    static float direction = 1.0f;
-    xPos = xPos + (0.01f * direction);
+    //// 행렬 업데이트.
+    //static float xPos = 0.0f;
+    //static float direction = 1.0f;
+    //xPos = xPos + (0.01f * direction);
 
-    if (xPos > 1.0f)
-    {
-        direction = -1.0f;
-    }
-    if (xPos < -1.0f)
-    {
-        direction = 1.0f;
-    }
+    //if (xPos > 1.0f)
+    //{
+    //    direction = -1.0f;
+    //}
+    //if (xPos < -1.0f)
+    //{
+    //    direction = 1.0f;
+    //}
 
-    // 스케일.
-    static float scale = 0.5f;
-    static float scaleDirection = 1.0f;
-    scale = scale + (0.01f * scaleDirection);
+    //// 스케일.
+    //static float scale = 0.5f;
+    //static float scaleDirection = 1.0f;
+    //scale = scale + (0.01f * scaleDirection);
 
-    if (scale > 1.5f)
-    {
-        scaleDirection = -1.0f;
-    }
-    if (scale < 0.5f)
-    {
-        scaleDirection = 1.0f;
-    }
+    //if (scale > 1.5f)
+    //{
+    //    scaleDirection = -1.0f;
+    //}
+    //if (scale < 0.5f)
+    //{
+    //    scaleDirection = 1.0f;
+    //}
 
-    // 회전.
-    static float zRot = 0.0f;
-    static float rotationDirection = 1.0f;
-    zRot = zRot + (1.0f * rotationDirection);
+    //// 회전.
+    //static float zRot = 0.0f;
+    //static float rotationDirection = 1.0f;
+    //zRot = zRot + (1.0f * rotationDirection);
 
-    if (zRot >= 360.0f)
-    {
-        zRot = 0.0f;
-    }
+    //if (zRot >= 360.0f)
+    //{
+    //    zRot = 0.0f;
+    //}
 
-    mesh.SetPosition(xPos, 0.0f, 0.0f);
-    mesh.SetRotation(0.0f, 0.0f, zRot);
-    mesh.SetScale(scale, scale, 1.0f);
+    //triangle.SetPosition(xPos, 0.0f, 0.0f);
+    //triangle.SetRotation(0.0f, 0.0f, zRot);
+    //triangle.SetScale(scale, scale, 1.0f);
 
-    mesh.UpdateBuffers(deviceContext.Get());
+    quad.UpdateBuffers(deviceContext.Get());
+    triangle.UpdateBuffers(deviceContext.Get());
 }
 
 void Engine::DrawScene()
@@ -117,7 +118,8 @@ void Engine::DrawScene()
     BasicShader::Bind(deviceContext.Get());
 
     // 그리기.
-    mesh.RenderBuffers(deviceContext.Get());
+    quad.RenderBuffers(deviceContext.Get());
+    triangle.RenderBuffers(deviceContext.Get());
 
     // 프레임 바꾸기. FrontBuffer <-> BackBuffer.
     swapChain.Get()->Present(1, 0);
@@ -135,10 +137,20 @@ bool Engine::InitializeScene()
     }
 
     // 메쉬 초기화
-    if (mesh.InitializeBuffers(device.Get(), BasicShader::ShaderBuffer()) == false)
+    if (quad.InitializeBuffers(device.Get(), BasicShader::ShaderBuffer()) == false)
     {
         return false;
     }
+    quad.SetPosition(-0.5f, 0.0f, 0.0f);
+    quad.SetScale(0.5f, 0.5f, 0.5f);
+
+    // 삼각형 초기화
+    if (triangle.InitializeBuffers(device.Get(), BasicShader::ShaderBuffer()) == false)
+    {
+        return false;
+    }
+    triangle.SetPosition(0.5f, 0.0f, 0.0f);
+    triangle.SetScale(0.5f, 0.5f, 0.5f);
 
     return true;
 }

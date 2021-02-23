@@ -3,6 +3,9 @@
 #include "VertexShader.h"
 #include "PixelShader.h"
 #include "Mesh.h"
+#include "Triangle.h"
+#include "Quad.h"
+
 #include "Matrix4f.h"
 #include <wrl.h>
 
@@ -25,6 +28,6 @@ private:
 	// 장면 초기화.
 	bool InitializeScene();
 
-	Mesh mesh;
+	Quad quad;
+	Triangle triangle;
 };
-

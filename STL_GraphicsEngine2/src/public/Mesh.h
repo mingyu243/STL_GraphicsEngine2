@@ -11,9 +11,10 @@ class Mesh
 {
 public:
 	Mesh();
-	~Mesh();
+	virtual ~Mesh();
 
-	bool InitializeBuffers(ID3D11Device* device, ID3DBlob* vertexShaderBuffer);
+	// 순수 가상 함수, = 인터페이스.
+	virtual bool InitializeBuffers(ID3D11Device* device, ID3DBlob* vertexShaderBuffer) = 0;
 
 	// Render = (Bind + Draw)
 	virtual void RenderBuffers(ID3D11DeviceContext* deviceContext);
@@ -38,7 +39,7 @@ public:
 	void SetScale(Vector3f scale);
 
 
-private:
+protected:
 	int vertexCount;				// 정점 개수.
 	ComPtr<ID3D11Buffer> vertexBuffer;		// 정점 버퍼.
 	ComPtr<ID3D11InputLayout> inputLayout; // 입력 레이아웃.
