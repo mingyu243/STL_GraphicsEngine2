@@ -4,6 +4,7 @@
 #include "Vertex.h"
 
 #include "BasicShader.h"
+#include "TextureMappingShader.h"
 
 Engine::Engine(HINSTANCE hInstance, int width, int height, std::wstring title)
     : DXApp(hInstance, width, height, title)
@@ -103,6 +104,7 @@ void Engine::Update()
 
     quad.UpdateBuffers(deviceContext.Get());
     triangle.UpdateBuffers(deviceContext.Get());
+    quadUV.UpdateBuffers(deviceContext.Get());
 }
 
 void Engine::DrawScene()
@@ -116,10 +118,14 @@ void Engine::DrawScene()
 
     // 그리기 준비.
     BasicShader::Bind(deviceContext.Get());
-
     // 그리기.
     quad.RenderBuffers(deviceContext.Get());
     triangle.RenderBuffers(deviceContext.Get());
+
+    // 그리기 준비. (쉐이더 바꾸기.)
+    TextureMappingShader::Bind(deviceContext.Get());
+    // 그리기.
+    quadUV.RenderBuffers(deviceContext.Get());
 
     // 프레임 바꾸기. FrontBuffer <-> BackBuffer.
     swapChain.Get()->Present(1, 0);
@@ -136,12 +142,22 @@ bool Engine::InitializeScene()
         return false;
     }
 
+    if (TextureMappingShader::Compile(device.Get(), L"google_logo.png") == false)
+    {
+        return false;
+    }
+    if (TextureMappingShader::Create(device.Get()) == false)
+    {
+        return false;
+    }
+
     // 메쉬 초기화
     if (quad.InitializeBuffers(device.Get(), BasicShader::ShaderBuffer()) == false)
     {
         return false;
     }
     quad.SetPosition(-0.5f, 0.0f, 0.0f);
+    quad.SetScale(0.5f, 0.5f, 0.5f);
     quad.SetScale(0.5f, 0.5f, 0.5f);
 
     // 삼각형 초기화
@@ -151,6 +167,13 @@ bool Engine::InitializeScene()
     }
     triangle.SetPosition(0.5f, 0.0f, 0.0f);
     triangle.SetScale(0.5f, 0.5f, 0.5f);
+    triangle.SetScale(0.5f, 0.5f, 0.5f);
+    
+    if (quadUV.InitializeBuffers(device.Get(), TextureMappingShader::ShaderBuffer()) == false)
+    {
+        return false;
+    }
+    quadUV.SetScale(0.5f, 0.5f, 0.5f);
 
     return true;
 }

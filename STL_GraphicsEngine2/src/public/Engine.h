@@ -5,6 +5,7 @@
 #include "Mesh.h"
 #include "Triangle.h"
 #include "Quad.h"
+#include "QuadUV.h"
 
 #include "Matrix4f.h"
 #include <wrl.h>
@@ -30,4 +31,5 @@ private:
 
 	Quad quad;
 	Triangle triangle;
+	QuadUV quadUV;
 };
