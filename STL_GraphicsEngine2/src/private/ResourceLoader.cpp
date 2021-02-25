@@ -1,7 +1,6 @@
 #include "ResourceLoader.h"
 
 #include <wrl.h>
-
 using Microsoft::WRL::ComPtr;
 
 ID3D11ShaderResourceView* ResourceLoader::LoadTextureFromFile(ID3D11Device* device, std::wstring filename)
@@ -66,7 +65,7 @@ ID3D11ShaderResourceView* ResourceLoader::LoadTextureFromFile(ID3D11Device* devi
         return nullptr;
     }
 
-    return nullptr;
+    return shaderResourceView;
 }
 
 std::wstring ResourceLoader::GetExtension(std::wstring str)
@@ -81,6 +80,7 @@ std::wstring ResourceLoader::GetExtension(std::wstring str)
 
 HRESULT ResourceLoader::GetScratchImage(std::wstring filename, DirectX::ScratchImage* image)
 {
+    // 파일의 확장자 구하기 (ex: jpg/png/tga).
     std::wstring extension = GetExtension(filename);
     
     if (extension._Equal(L"tga") || extension._Equal(L"TGA"))

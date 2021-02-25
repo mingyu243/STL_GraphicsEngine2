@@ -142,7 +142,7 @@ bool Engine::InitializeScene()
         return false;
     }
 
-    if (TextureMappingShader::Compile(device.Get(), L"google_logo.png") == false)
+    if (TextureMappingShader::Compile(device.Get(), L"dog.jpg") == false)
     {
         return false;
     }
@@ -158,7 +158,6 @@ bool Engine::InitializeScene()
     }
     quad.SetPosition(-0.5f, 0.0f, 0.0f);
     quad.SetScale(0.5f, 0.5f, 0.5f);
-    quad.SetScale(0.5f, 0.5f, 0.5f);
 
     // 삼각형 초기화
     if (triangle.InitializeBuffers(device.Get(), BasicShader::ShaderBuffer()) == false)
@@ -167,12 +166,12 @@ bool Engine::InitializeScene()
     }
     triangle.SetPosition(0.5f, 0.0f, 0.0f);
     triangle.SetScale(0.5f, 0.5f, 0.5f);
-    triangle.SetScale(0.5f, 0.5f, 0.5f);
     
     if (quadUV.InitializeBuffers(device.Get(), TextureMappingShader::ShaderBuffer()) == false)
     {
         return false;
     }
+    quadUV.SetPosition(0.0f, 0.5f, 0.0f);
     quadUV.SetScale(0.5f, 0.5f, 0.5f);
 
     return true;
