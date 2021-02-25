@@ -1,13 +1,19 @@
 #pragma once
 #include "DXApp.h"
+
 #include "VertexShader.h"
 #include "PixelShader.h"
+
+#include "TextureMappingShader.h"
+
 #include "Mesh.h"
 #include "Triangle.h"
 #include "Quad.h"
 #include "QuadUV.h"
+#include "ModelUV.h"
 
 #include "Matrix4f.h"
+
 #include <wrl.h>
 
 using Microsoft::WRL::ComPtr;
@@ -28,8 +34,12 @@ protected:
 private:
 	// 장면 초기화.
 	bool InitializeScene();
+	
+	TextureMappingShader textureShader;
 
 	Quad quad;
 	Triangle triangle;
 	QuadUV quadUV;
+
+	ModelUV modelUV;
 };

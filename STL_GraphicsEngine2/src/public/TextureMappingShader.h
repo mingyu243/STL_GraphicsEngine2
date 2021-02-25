@@ -10,14 +10,17 @@
 class TextureMappingShader
 {
 public:
-	static bool Compile(ID3D11Device* device, std::wstring textureFileName);
-	static bool Create(ID3D11Device* device);
-	static void Bind(ID3D11DeviceContext* deviceContext);
+	// 컴파일 / 생성 한번에. 편의 함수.
+	bool Initialize(ID3D11Device* device, std::wstring textureFileName);
 
-	static ID3DBlob* ShaderBuffer();
+	bool Compile(ID3D11Device* device, std::wstring textureFileName);
+	bool Create(ID3D11Device* device);
+	void Bind(ID3D11DeviceContext* deviceContext);
+
+	ID3DBlob* ShaderBuffer();
 
 private:
-	static VertexShader vertexShader;
-	static PixelShader pixelShader;
+	VertexShader vertexShader;
+	PixelShader pixelShader;
 };
 

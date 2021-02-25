@@ -74,41 +74,41 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\bin\intermediate\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)include\DirectXTex;$(ProjectDir)src\public;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)lib\DirectXTex\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)include\DirectXTex;$(SolutionDir)include\DirectXTK;$(ProjectDir)src\public;$(SolutionDir)include\assimp;$(SolutionDir)include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)lib\DirectXTex\$(Platform)\$(Configuration);$(SolutionDir)lib\DirectXTK\$(Platform)\$(Configuration);$(SolutionDir)lib\assimp\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\bin\intermediate\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)include\DirectXTex;$(ProjectDir)src\public;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)lib\DirectXTex\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)include\DirectXTex;$(SolutionDir)include\DirectXTK;$(ProjectDir)src\public;$(SolutionDir)include\assimp;$(SolutionDir)include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)lib\DirectXTex\$(Platform)\$(Configuration);$(SolutionDir)lib\DirectXTK\$(Platform)\$(Configuration);$(SolutionDir)lib\assimp\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\bin\intermediate\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)include\DirectXTex;$(ProjectDir)src\public;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)lib\DirectXTex\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)include\DirectXTex;$(SolutionDir)include\DirectXTK;$(ProjectDir)src\public;$(SolutionDir)include\assimp;$(SolutionDir)include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)lib\DirectXTex\$(Platform)\$(Configuration);$(SolutionDir)lib\DirectXTK\$(Platform)\$(Configuration);$(SolutionDir)lib\assimp\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\bin\intermediate\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)include\DirectXTex;$(ProjectDir)src\public;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)lib\DirectXTex\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)include\DirectXTex;$(SolutionDir)include\DirectXTK;$(ProjectDir)src\public;$(SolutionDir)include\assimp;$(SolutionDir)include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)lib\DirectXTex\$(Platform)\$(Configuration);$(SolutionDir)lib\DirectXTK\$(Platform)\$(Configuration);$(SolutionDir)lib\assimp\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTex.lib;DirectXTK.lib;assimp-vc142-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>if not exist $(OutDir)..\shaders mkdir $(OutDir)..\shaders
@@ -122,7 +122,7 @@ copy $(SolutionDir)\shaders\* $(OutDir)..\shaders\</Command>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -130,7 +130,7 @@ copy $(SolutionDir)\shaders\* $(OutDir)..\shaders\</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTex.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTex.lib;DirectXTK.lib;assimp-vc142-mtd.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>if not exist $(OutDir)..\shaders mkdir $(OutDir)..\shaders
@@ -142,13 +142,13 @@ copy $(SolutionDir)\shaders\* $(OutDir)..\shaders\</Command>
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTex.lib;DirectXTK.lib;assimp-vc142-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>if not exist $(OutDir)..\shaders mkdir $(OutDir)..\shaders
@@ -162,7 +162,7 @@ copy $(SolutionDir)\shaders\* $(OutDir)..\shaders\</Command>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -170,7 +170,7 @@ copy $(SolutionDir)\shaders\* $(OutDir)..\shaders\</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTex.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTex.lib;DirectXTK.lib;assimp-vc142-mtd.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>if not exist $(OutDir)..\shaders mkdir $(OutDir)..\shaders
@@ -179,6 +179,8 @@ copy $(SolutionDir)\shaders\* $(OutDir)..\shaders\</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\private\InputProcessor.cpp" />
+    <ClCompile Include="src\private\ModelUV.cpp" />
     <ClCompile Include="src\private\QuadUV.cpp" />
     <ClCompile Include="src\private\ResourceLoader.cpp" />
     <ClCompile Include="src\private\Quad.cpp" />
@@ -203,6 +205,8 @@ copy $(SolutionDir)\shaders\* $(OutDir)..\shaders\</Command>
     <ClCompile Include="src\private\VertexUV.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\public\InputProcessor.h" />
+    <ClInclude Include="src\public\ModelUV.h" />
     <ClInclude Include="src\public\QuadUV.h" />
     <ClInclude Include="src\public\ResourceLoader.h" />
     <ClInclude Include="src\public\Quad.h" />

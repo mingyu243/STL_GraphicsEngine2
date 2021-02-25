@@ -1,7 +1,21 @@
 #include "TextureMappingShader.h"
 
-VertexShader TextureMappingShader::vertexShader = VertexShader(L"..//shaders//TextureMappingVS.hlsl", "main", "vs_5_0");
-PixelShader TextureMappingShader::pixelShader = PixelShader(L"..//shaders//TextureMappingPS.hlsl", "main", "ps_5_0");
+bool TextureMappingShader::Initialize(ID3D11Device* device, std::wstring textureFileName)
+{
+	vertexShader = VertexShader(L"..//shaders//TextureMappingVS.hlsl", "main", "vs_5_0");
+	pixelShader = PixelShader(L"..//shaders//TextureMappingPS.hlsl", "main", "ps_5_0");
+
+	if (Compile(device, textureFileName) == false)
+	{
+		return false;
+	}
+	if (Create(device) == false)
+	{
+		return false;
+	}
+
+	return true;
+}
 
 bool TextureMappingShader::Compile(ID3D11Device* device, std::wstring textureFileName)
 {

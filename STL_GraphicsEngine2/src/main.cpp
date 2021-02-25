@@ -1,5 +1,5 @@
 #include "Engine.h"
-#include "public/Vector3f.h"
+#include "Vector3f.h"
 
 #include <iostream>
 

@@ -1,5 +1,7 @@
 #include "Window.h"
 
+#include "InputProcessor.h"
+
 HINSTANCE Window::hInstance;
 HWND Window::hwnd;
 int Window::width;
@@ -15,6 +17,40 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_DESTROY:
 		// 종료 메시지 발생 시킴.
 		PostQuitMessage(0);
+		return 0;
+
+		// 입력 처리.
+	case WM_ACTIVATEAPP:
+		{
+			Keyboard::ProcessMessage(msg, wParam, lParam);
+			Mouse::ProcessMessage(msg, wParam, lParam);
+		}
+		return 0;
+
+		// 키보드 입력 처리.
+	case WM_KEYDOWN:
+	case WM_KEYUP:
+	case WM_SYSKEYDOWN:
+	case WM_SYSKEYUP:
+		{
+			Keyboard::ProcessMessage(msg, wParam, lParam);
+		}
+		return 0;
+
+		// 마우스 입력 처리.
+	case WM_INPUT:
+	case WM_MOUSEMOVE:
+	case WM_LBUTTONDOWN:
+	case WM_LBUTTONUP:
+	case WM_RBUTTONDOWN:
+	case WM_RBUTTONUP:
+	case WM_MBUTTONDOWN:
+	case WM_MBUTTONUP:
+	case WM_MOUSEWHEEL:
+	case WM_MOUSEHOVER:
+		{
+			Mouse::ProcessMessage(msg, wParam, lParam);
+		}
 		return 0;
 	}
 
@@ -86,6 +122,9 @@ bool Window::InitializeWindow(HINSTANCE hInstance, int width, int height, std::w
 	// 윈도우 보이기.
 	ShowWindow(hwnd, SW_SHOW);
 	UpdateWindow(hwnd);
+
+	// 입력 초기화.
+	InputProcessor::InitializeInput(hwnd);
 
 	return true;
 }
