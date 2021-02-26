@@ -179,6 +179,8 @@ copy $(SolutionDir)\shaders\* $(OutDir)..\shaders\</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="IndexBuffer.cpp" />
+    <ClCompile Include="src\private\InputLayout.cpp" />
     <ClCompile Include="src\private\InputProcessor.cpp" />
     <ClCompile Include="src\private\ModelUV.cpp" />
     <ClCompile Include="src\private\QuadUV.cpp" />
@@ -203,8 +205,11 @@ copy $(SolutionDir)\shaders\* $(OutDir)..\shaders\</Command>
     <ClCompile Include="src\private\Triangle.cpp" />
     <ClCompile Include="src\private\Texture.cpp" />
     <ClCompile Include="src\private\VertexUV.cpp" />
+    <ClCompile Include="VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\public\IndexBuffer.h" />
+    <ClInclude Include="src\public\InputLayout.h" />
     <ClInclude Include="src\public\InputProcessor.h" />
     <ClInclude Include="src\public\ModelUV.h" />
     <ClInclude Include="src\public\QuadUV.h" />
@@ -221,6 +226,7 @@ copy $(SolutionDir)\shaders\* $(OutDir)..\shaders\</Command>
     <ClInclude Include="src\public\TextureMappingShader.h" />
     <ClInclude Include="src\public\Vector2f.h" />
     <ClInclude Include="src\public\Vertex.h" />
+    <ClInclude Include="src\public\VertexBuffer.h" />
     <ClInclude Include="src\public\Window.h" />
     <ClInclude Include="src\public\VertexShader.h" />
     <ClInclude Include="src\public\Vector3f.h" />

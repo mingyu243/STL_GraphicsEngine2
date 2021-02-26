@@ -1,7 +1,9 @@
 #include "Mesh.h"
 
 Mesh::Mesh()
-	: vertexCount(0), vertexBuffer(0), inputLayout(0),
+	: vertexBuffer(),
+    indexBuffer(),
+    inputLayout(),
     transform(), // transform(TransformBuffer())랑 같음.
     position(Vector3f::Zero),
     rotation(Vector3f::Zero),
@@ -22,13 +24,9 @@ void Mesh::RenderBuffers(ID3D11DeviceContext* deviceContext)
 
 void Mesh::BindBuffers(ID3D11DeviceContext* deviceContext)
 {
-    // Bind
-    unsigned int stride = sizeof(Vertex); // 한번에 몇 개씩 읽을 지.
-    unsigned int offset = 0;
-
-    deviceContext->IASetVertexBuffers(0, 1, vertexBuffer.GetAddressOf(), &stride, &offset);
-    deviceContext->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
-    deviceContext->IASetInputLayout(inputLayout.Get());
+    vertexBuffer.Bind(deviceContext);
+    indexBuffer.Bind(deviceContext);
+    inputLayout.Bind(deviceContext);
     deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 선을 그릴 때는 LineList.
 
     transform.Bind(deviceContext);
@@ -38,7 +36,7 @@ void Mesh::DrawBuffers(ID3D11DeviceContext* deviceContext)
 {
     // Draw
     //deviceContext->Draw(vertexCount, 0); // 이게 DrawCall이다.
-    deviceContext->DrawIndexed(indexCount, 0, 0);
+    deviceContext->DrawIndexed(indexBuffer.Count(), 0, 0);
 }
 
 void Mesh::UpdateBuffers(ID3D11DeviceContext* deviceContext)

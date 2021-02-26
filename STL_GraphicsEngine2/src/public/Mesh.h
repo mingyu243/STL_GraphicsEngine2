@@ -4,6 +4,9 @@
 #include <d3d11.h>
 #include <wrl.h>
 #include "TransformBuffer.h"
+#include "VertexBuffer.h"
+#include "IndexBuffer.h"
+#include "InputLayout.h"
 
 using Microsoft::WRL::ComPtr;
 
@@ -40,12 +43,15 @@ public:
 
 
 protected:
-	int vertexCount;				// 정점 개수.
-	int indexCount;					// 인덱스 개수.
-	ComPtr<ID3D11Buffer> vertexBuffer;		// 정점 버퍼.
-	ComPtr<ID3D11Buffer> indexBuffer;		// 인덱스 버퍼.
+	//int vertexCount;				// 정점 개수.
+	//int indexCount;					// 인덱스 개수.
+	//ComPtr<ID3D11Buffer> vertexBuffer;		// 정점 버퍼.
+	//ComPtr<ID3D11Buffer> indexBuffer;		// 인덱스 버퍼.
 
-	ComPtr<ID3D11InputLayout> inputLayout; // 입력 레이아웃.
+	//ComPtr<ID3D11InputLayout> inputLayout; // 입력 레이아웃.
+	VertexBuffer vertexBuffer;
+	IndexBuffer indexBuffer;
+	InputLayout inputLayout;
 
 	// 트랜스폼 버퍼.
 	TransformBuffer transform;

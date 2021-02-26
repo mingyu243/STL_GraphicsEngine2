@@ -178,23 +178,23 @@ bool Engine::InitializeScene()
     {
         return false;
     }
-    quad.SetPosition(-0.5f, 0.0f, 0.0f);
-    quad.SetScale(0.5f, 0.5f, 0.5f);
+    quad.SetPosition(-0.7f, 0.0f, 0.0f);
+    quad.SetScale(0.4f, 0.4f, 0.4f);
 
     // 삼각형 초기화
     if (triangle.InitializeBuffers(device.Get(), BasicShader::ShaderBuffer()) == false)
     {
         return false;
     }
-    triangle.SetPosition(0.5f, 0.0f, 0.0f);
-    triangle.SetScale(0.5f, 0.5f, 0.5f);
+    triangle.SetPosition(-0.7f, 0.6f, 0.0f);
+    triangle.SetScale(0.4f, 0.4f, 0.4f);
     
     if (quadUV.InitializeBuffers(device.Get(), textureShader.ShaderBuffer()) == false)
     {
         return false;
     }
-    quadUV.SetPosition(0.0f, 0.5f, 0.0f);
-    quadUV.SetScale(0.5f, 0.5f, 0.5f);
+    quadUV.SetPosition(-0.7f, -0.6f, 0.0f);
+    quadUV.SetScale(0.4f, 0.4f, 0.4f);
 
     if (modelUV.InitializeBuffers(device.Get(), textureShader.ShaderBuffer(), "cube.fbx") == false)
     {
