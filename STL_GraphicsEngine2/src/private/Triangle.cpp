@@ -49,6 +49,35 @@ bool Triangle::InitializeBuffers(ID3D11Device* device, ID3DBlob* vertexShaderBuf
         return false;
     }
 
+    // 인덱스 버퍼.
+    unsigned int indices[] =
+    {
+        0, 1, 2
+    };
+
+    // 인덱스 개수 계산.
+    indexCount = ARRAYSIZE(indices);
+
+    D3D11_BUFFER_DESC indexBufferDesc;
+    memset(&indexBufferDesc, 0, sizeof(indexBufferDesc));
+    indexBufferDesc.ByteWidth = sizeof(indices);
+    indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+    indexBufferDesc.CPUAccessFlags = 0;
+    indexBufferDesc.MiscFlags = 0;
+    indexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+
+    // 데이터 담기.
+    D3D11_SUBRESOURCE_DATA indexBufferData;
+    ZeroMemory(&indexBufferData, sizeof(indexBufferData));
+    indexBufferData.pSysMem = indices;
+
+    result = device->CreateBuffer(&indexBufferDesc, &indexBufferData, indexBuffer.GetAddressOf());
+    if (FAILED(result))
+    {
+        MessageBox(nullptr, L"인덱스 버퍼 생성 실패", L"오류", 0);
+        return false;
+    }
+
     // 정점에 대한 명세 만들기 (입력 레이아웃).
     D3D11_INPUT_ELEMENT_DESC layout[] =
     {

@@ -68,7 +68,7 @@ ID3D11ShaderResourceView* ResourceLoader::LoadTextureFromFile(ID3D11Device* devi
 	return shaderResourceView;
 }
 
-void ResourceLoader::LoadModel(std::string filename, std::vector<Vertex>* vertices)
+void ResourceLoader::LoadModel(std::string filename, std::vector<Vertex>* vertices, std::vector<unsigned int>* indices)
 {
 	// 리소스 경로 추가.
 	filename = std::string("..//res//models//") + filename;
@@ -96,7 +96,9 @@ void ResourceLoader::LoadModel(std::string filename, std::vector<Vertex>* vertic
 	if (scene != nullptr)
 	{
 		const aiMesh* mesh = scene->mMeshes[0]; // 원래는 여러 개 있을 수도 있어서, 루프 돌아야 함.
-		vertices->reserve(mesh->mNumVertices);
+
+		vertices->reserve((size_t)mesh->mNumVertices);
+		indices->reserve((size_t)(mesh->mNumFaces) * 3);
 
 		// 정점 배열 채우기.
 		for (int ix = 0; ix < mesh->mNumVertices; ix++)
@@ -111,6 +113,14 @@ void ResourceLoader::LoadModel(std::string filename, std::vector<Vertex>* vertic
 			Vertex vertex = Vertex(position.x, position.y, position.z);
 			vertices->push_back(vertex);
 		}
+		// 인덱스 배열 채우기.
+		for (unsigned int ix = 0; ix < mesh->mNumFaces; ix++)
+		{
+			const aiFace& face = mesh->mFaces[ix];
+			indices->push_back(face.mIndices[0]);
+			indices->push_back(face.mIndices[1]);
+			indices->push_back(face.mIndices[2]);
+		}
 	}
 	else
 	{
@@ -119,7 +129,7 @@ void ResourceLoader::LoadModel(std::string filename, std::vector<Vertex>* vertic
 	}
 }
 
-void ResourceLoader::LoadModel(std::string filename, std::vector<VertexUV>* vertices)
+void ResourceLoader::LoadModel(std::string filename, std::vector<VertexUV>* vertices, std::vector<unsigned int>* indices)
 {
 	// 리소스 경로 추가.
 	filename = std::string("..//res//models//") + filename;
@@ -147,7 +157,9 @@ void ResourceLoader::LoadModel(std::string filename, std::vector<VertexUV>* vert
 	if (scene != nullptr)
 	{
 		const aiMesh* mesh = scene->mMeshes[0]; // 원래는 여러 개 있을 수도 있어서, 루프 돌아야 함.
-		vertices->reserve(mesh->mNumVertices);
+
+		vertices->reserve((size_t)mesh->mNumVertices);
+		indices->reserve((size_t)(mesh->mNumFaces) * 3);
 
 		// 정점 배열 채우기.
 		for (int ix = 0; ix < mesh->mNumVertices; ix++)
@@ -175,6 +187,15 @@ void ResourceLoader::LoadModel(std::string filename, std::vector<VertexUV>* vert
 
 			VertexUV vertex = VertexUV(position, uv);
 			vertices->push_back(vertex);
+		}
+
+		// 인덱스 배열 채우기.
+		for (unsigned int ix = 0; ix < mesh->mNumFaces; ix++)
+		{
+			const aiFace& face = mesh->mFaces[ix];
+			indices->push_back(face.mIndices[0]);
+			indices->push_back(face.mIndices[1]);
+			indices->push_back(face.mIndices[2]);
 		}
 	}
 	else

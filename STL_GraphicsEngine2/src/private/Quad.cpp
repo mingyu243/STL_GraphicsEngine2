@@ -18,8 +18,6 @@ bool Quad::InitializeBuffers(ID3D11Device* device, ID3DBlob* vertexShaderBuffer)
         Vertex(-0.5f, -0.5f, 0.5f),
         Vertex(-0.5f, 0.5f, 0.5f),
         Vertex(0.5f, 0.5f, 0.5f),
-        Vertex(-0.5f, -0.5f, 0.5f),
-        Vertex(0.5f, 0.5f, 0.5f),
         Vertex(0.5f, -0.5f, 0.5f)
     };
 
@@ -49,6 +47,36 @@ bool Quad::InitializeBuffers(ID3D11Device* device, ID3DBlob* vertexShaderBuffer)
     if (FAILED(result))
     {
         MessageBox(nullptr, L"정점 버퍼 생성 실패", L"오류", 0);
+        return false;
+    }
+
+    // 인덱스 버퍼.
+    unsigned int indices[] =
+    {
+        0, 1, 2, // 시계 방향으로만 돌려주면 됌.
+        0, 2, 3
+    };
+
+    // 인덱스 개수 계산.
+    indexCount = ARRAYSIZE(indices);
+
+    D3D11_BUFFER_DESC indexBufferDesc;
+    memset(&indexBufferDesc, 0, sizeof(indexBufferDesc));
+    indexBufferDesc.ByteWidth = sizeof(indices);
+    indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+    indexBufferDesc.CPUAccessFlags = 0;
+    indexBufferDesc.MiscFlags = 0;
+    indexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+
+    // 데이터 담기.
+    D3D11_SUBRESOURCE_DATA indexBufferData;
+    ZeroMemory(&indexBufferData, sizeof(indexBufferData));
+    indexBufferData.pSysMem = indices;
+
+    result = device->CreateBuffer(&indexBufferDesc, &indexBufferData, indexBuffer.GetAddressOf());
+    if (FAILED(result))
+    {
+        MessageBox(nullptr, L"인덱스 버퍼 생성 실패", L"오류", 0);
         return false;
     }
 

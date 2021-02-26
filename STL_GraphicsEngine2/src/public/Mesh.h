@@ -41,7 +41,10 @@ public:
 
 protected:
 	int vertexCount;				// 정점 개수.
+	int indexCount;					// 인덱스 개수.
 	ComPtr<ID3D11Buffer> vertexBuffer;		// 정점 버퍼.
+	ComPtr<ID3D11Buffer> indexBuffer;		// 인덱스 버퍼.
+
 	ComPtr<ID3D11InputLayout> inputLayout; // 입력 레이아웃.
 
 	// 트랜스폼 버퍼.

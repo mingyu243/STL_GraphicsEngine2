@@ -20,9 +20,10 @@ bool ModelUV::InitializeBuffers(ID3D11Device* device, ID3DBlob* vertexShaderBuff
 bool ModelUV::InitializeBuffers(ID3D11Device* device, ID3DBlob* vertexShaderBuffer, std::string modelFileName)
 {
     std::vector<VertexUV> vertices;
-    
+    std::vector<unsigned int> indices;
+
     // 리소스 로드.
-    ResourceLoader::LoadModel(modelFileName, &vertices);
+    ResourceLoader::LoadModel(modelFileName, &vertices, &indices);
 
     // 정점의 개수.
     vertexCount = vertices.size();
@@ -51,6 +52,34 @@ bool ModelUV::InitializeBuffers(ID3D11Device* device, ID3DBlob* vertexShaderBuff
     if (FAILED(result))
     {
         MessageBox(nullptr, L"정점 버퍼 생성 실패", L"오류", 0);
+        return false;
+    }
+
+    // 인덱스 버퍼
+    indexCount = indices.size();
+
+    D3D11_BUFFER_DESC indexBufferDesc;
+    ZeroMemory(&indexBufferDesc, sizeof(indexBufferDesc));
+    indexBufferDesc.ByteWidth = sizeof(unsigned int) * indexCount;
+    indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+    indexBufferDesc.CPUAccessFlags = 0;
+    indexBufferDesc.MiscFlags = 0;
+    indexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+
+    // 데이터 담기.
+    D3D11_SUBRESOURCE_DATA indexBufferData;
+    ZeroMemory(&indexBufferData, sizeof(indexBufferData));
+    indexBufferData.pSysMem = indices.data();
+
+    // 인덱스 버퍼 생성.
+    result = device->CreateBuffer(
+        &indexBufferDesc,
+        &indexBufferData,
+        indexBuffer.GetAddressOf()
+    );
+    if (FAILED(result))
+    {
+        MessageBox(nullptr, L"인덱스 버퍼 생성 실패", L"오류", 0);
         return false;
     }
 
@@ -91,6 +120,7 @@ void ModelUV::BindBuffers(ID3D11DeviceContext* deviceContext)
     unsigned int offset = 0;
 
     deviceContext->IASetVertexBuffers(0, 1, vertexBuffer.GetAddressOf(), &stride, &offset);
+    deviceContext->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
     deviceContext->IASetInputLayout(inputLayout.Get());
     deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 선을 그릴 때는 LineList.
 

@@ -200,8 +200,9 @@ bool Engine::InitializeScene()
     {
         return false;
     }
-    modelUV.SetScale(0.2f, 0.2f, 0.2f);
+    modelUV.SetPosition(0.0f, 0.0f, 0.5f);
     modelUV.SetRotation(45.0f, 45.0f, 0.0f);
+    modelUV.SetScale(0.2f, 0.2f, 0.2f);
 
     return true;
 }

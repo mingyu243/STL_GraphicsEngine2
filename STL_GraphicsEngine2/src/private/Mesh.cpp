@@ -27,6 +27,7 @@ void Mesh::BindBuffers(ID3D11DeviceContext* deviceContext)
     unsigned int offset = 0;
 
     deviceContext->IASetVertexBuffers(0, 1, vertexBuffer.GetAddressOf(), &stride, &offset);
+    deviceContext->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
     deviceContext->IASetInputLayout(inputLayout.Get());
     deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 선을 그릴 때는 LineList.
 
@@ -36,7 +37,8 @@ void Mesh::BindBuffers(ID3D11DeviceContext* deviceContext)
 void Mesh::DrawBuffers(ID3D11DeviceContext* deviceContext)
 {
     // Draw
-    deviceContext->Draw(vertexCount, 0); // 이게 DrawCall이다.
+    //deviceContext->Draw(vertexCount, 0); // 이게 DrawCall이다.
+    deviceContext->DrawIndexed(indexCount, 0, 0);
 }
 
 void Mesh::UpdateBuffers(ID3D11DeviceContext* deviceContext)
