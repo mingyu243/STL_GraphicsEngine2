@@ -6,6 +6,12 @@ cbuffer transform : register(b0)
 	matrix world; // 월드 행렬.
 };
 
+// 카메라 행렬 데이터.
+cbuffer camera : register(b1)
+{
+    matrix viewProjection;
+}
+
 // 정점 입력.
 struct vs_input
 {
@@ -26,7 +32,8 @@ vs_output main(vs_input input)
 {
 	vs_output output;
 	output.position = mul(input.position, world);
-    output.texCoord = input.texCoord;
-
+    output.position = mul(output.position, viewProjection);
+	output.texCoord = input.texCoord;
+	
 	return output;
 }

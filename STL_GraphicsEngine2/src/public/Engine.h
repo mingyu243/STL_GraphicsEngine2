@@ -18,6 +18,8 @@
 
 using Microsoft::WRL::ComPtr;
 
+#include "CameraClass.h"
+
 class Engine : public DXApp
 {
 public:
@@ -36,10 +38,7 @@ private:
 	bool InitializeScene();
 	
 	TextureMappingShader textureShader;
-
-	Quad quad;
-	Triangle triangle;
-	QuadUV quadUV;
-
 	ModelUV modelUV;
+
+	Camera camera;	
 };

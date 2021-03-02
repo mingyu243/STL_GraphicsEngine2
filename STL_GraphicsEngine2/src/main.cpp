@@ -10,7 +10,7 @@ int WINAPI WinMain(
 	int nCmdShow)
 {
 	// 객체.
-	Engine engine = Engine(hInstance, 1280, 800, L"그래픽스 엔진");
+	Engine engine(hInstance, 1280, 800, L"그래픽스 엔진");
 
 	// 초기화.
 	if (engine.Initialize() == false)

@@ -8,6 +8,8 @@
 
 #include "InputProcessor.h"
 
+#include "MathUtil.h"
+
 Engine::Engine(HINSTANCE hInstance, int width, int height, std::wstring title)
     : DXApp(hInstance, width, height, title)
 {
@@ -72,63 +74,43 @@ int Engine::Run()
 
 void Engine::Update()
 {
-    //// 행렬 업데이트.
-    //static float xPos = 0.0f;
-    //static float direction = 1.0f;
-    //xPos = xPos + (0.01f * direction);
+    // 카메라 이동 처리.
+    static float moveSpeed = 2.0f;
+    if (InputProcessor::IsKeyDown(Keyboard::Keys::W) == true)
+    {
+        camera.MoveForward(moveSpeed);
+    }
+    if (InputProcessor::IsKeyDown(Keyboard::Keys::S) == true)
+    {
+        camera.MoveForward(-moveSpeed);
+    }
+    if (InputProcessor::IsKeyDown(Keyboard::Keys::A) == true)
+    {
+        camera.MoveRight(-moveSpeed);
+    }
+    if (InputProcessor::IsKeyDown(Keyboard::Keys::D) == true)
+    {
+        camera.MoveRight(moveSpeed);
+    }
+    if (InputProcessor::IsKeyDown(Keyboard::Keys::Q) == true)
+    {
+        camera.MoveUp(moveSpeed);
+    }
+    if (InputProcessor::IsKeyDown(Keyboard::Keys::E) == true)
+    {
+        camera.MoveUp(-moveSpeed);
+    }
 
-    //if (xPos > 1.0f)
-    //{
-    //    direction = -1.0f;
-    //}
-    //if (xPos < -1.0f)
-    //{
-    //    direction = 1.0f;
-    //}
+    // 카메라 회전 처리.
+    Mouse::State state = InputProcessor::MouseState();
+    static float rotationSpeed = 0.2f;
+    if (state.leftButton == true)
+    {
+        camera.Yaw((float)state.x * rotationSpeed);
+        camera.Pitch((float)state.y * rotationSpeed);
+    }
 
-    //// 스케일.
-    //static float scale = 0.5f;
-    //static float scaleDirection = 1.0f;
-    //scale = scale + (0.01f * scaleDirection);
-
-    //if (scale > 1.5f)
-    //{
-    //    scaleDirection = -1.0f;
-    //}
-    //if (scale < 0.5f)
-    //{
-    //    scaleDirection = 1.0f;
-    //}
-
-    //// 회전.
-    //static float zRot = 0.0f;
-    //static float rotationDirection = 1.0f;
-    //zRot = zRot + (1.0f * rotationDirection);
-
-    //if (zRot >= 360.0f)
-    //{
-    //    zRot = 0.0f;
-    //}
-
-    //triangle.SetPosition(xPos, 0.0f, 0.0f);
-    //triangle.SetRotation(0.0f, 0.0f, zRot);
-    //triangle.SetScale(scale, scale, 1.0f);
-
-    //// 테스트 용.
-    //static float xPos = quad.Position().x;
-    //if (InputProcessor::IsKeyDown(Keyboard::Keys::A))
-    //{
-    //    xPos -= 0.01f;
-    //}
-    //if (InputProcessor::IsKeyDown(Keyboard::Keys::D))
-    //{
-    //    xPos += 0.01f;
-    //}
-    //quad.SetPosition(xPos, quad.Position().y, 0.0f);
-
-    quad.UpdateBuffers(deviceContext.Get());
-    triangle.UpdateBuffers(deviceContext.Get());
-    quadUV.UpdateBuffers(deviceContext.Get());
+    camera.UpdateCamera();
     modelUV.UpdateBuffers(deviceContext.Get());
 }
 
@@ -141,16 +123,11 @@ void Engine::DrawScene()
     // Begin Draw(Render) - DX9.
     deviceContext.Get()->ClearRenderTargetView(renderTargetView.Get(), backgroundColor);
 
-    // 그리기 준비.
-    BasicShader::Bind(deviceContext.Get());
-    // 그리기.
-    quad.RenderBuffers(deviceContext.Get());
-    triangle.RenderBuffers(deviceContext.Get());
+    // 카메라 바인딩.
+    camera.BindBuffer(deviceContext.Get());
 
     // 그리기 준비. (쉐이더 바꾸기.)
     textureShader.Bind(deviceContext.Get());
-    // 그리기.
-    quadUV.RenderBuffers(deviceContext.Get());
     modelUV.RenderBuffers(deviceContext.Get());
 
     // 프레임 바꾸기. FrontBuffer <-> BackBuffer.
@@ -159,6 +136,23 @@ void Engine::DrawScene()
 
 bool Engine::InitializeScene()
 {
+    // 카메라 생성.
+    camera = Camera(
+        70.0f * MathUtil::Deg2Rad,
+        (float)Window::Width(),
+        (float)Window::Height(),
+        0.1f,
+        1000.0f
+    );
+    // 카메라 위치 설정.
+    camera.SetPosition(0.0f, 0.0f, -200.0f);
+
+    // 카메라 버퍼 생성.
+    if (camera.CreateBuffer(device.Get()) == false)
+    {
+        return false;
+    }
+
     if (BasicShader::Compile(device.Get()) == false)
     {
         return false;
@@ -168,41 +162,18 @@ bool Engine::InitializeScene()
         return false;
     }
 
-    if (textureShader.Initialize(device.Get(), L"dog.jpg") == false)
+    if (textureShader.Initialize(device.Get(), L"T_Chr_FPS_D.png") == false)
     {
         return false;
     }
 
-    // 메쉬 초기화
-    if (quad.InitializeBuffers(device.Get(), BasicShader::ShaderBuffer()) == false)
+    if (modelUV.InitializeBuffers(device.Get(), textureShader.ShaderBuffer(), "HeroTPP.FBX") == false)
     {
         return false;
     }
-    quad.SetPosition(-0.7f, 0.0f, 0.0f);
-    quad.SetScale(0.4f, 0.4f, 0.4f);
-
-    // 삼각형 초기화
-    if (triangle.InitializeBuffers(device.Get(), BasicShader::ShaderBuffer()) == false)
-    {
-        return false;
-    }
-    triangle.SetPosition(-0.7f, 0.6f, 0.0f);
-    triangle.SetScale(0.4f, 0.4f, 0.4f);
-    
-    if (quadUV.InitializeBuffers(device.Get(), textureShader.ShaderBuffer()) == false)
-    {
-        return false;
-    }
-    quadUV.SetPosition(-0.7f, -0.6f, 0.0f);
-    quadUV.SetScale(0.4f, 0.4f, 0.4f);
-
-    if (modelUV.InitializeBuffers(device.Get(), textureShader.ShaderBuffer(), "cube.fbx") == false)
-    {
-        return false;
-    }
-    modelUV.SetPosition(0.0f, 0.0f, 0.5f);
-    modelUV.SetRotation(45.0f, 45.0f, 0.0f);
-    modelUV.SetScale(0.2f, 0.2f, 0.2f);
+    modelUV.SetPosition(0.0f, -90.0f, 0.5f);
+    modelUV.SetRotation(-90.0f, 0.0f, 0.0f);
+    modelUV.SetScale(1.0f, 1.0f, 1.0f);
 
     return true;
 }

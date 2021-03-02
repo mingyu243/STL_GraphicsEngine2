@@ -179,7 +179,8 @@ copy $(SolutionDir)\shaders\* $(OutDir)..\shaders\</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="IndexBuffer.cpp" />
+    <ClCompile Include="src\private\CameraClass.cpp" />
+    <ClCompile Include="src\private\IndexBuffer.cpp" />
     <ClCompile Include="src\private\InputLayout.cpp" />
     <ClCompile Include="src\private\InputProcessor.cpp" />
     <ClCompile Include="src\private\ModelUV.cpp" />
@@ -205,9 +206,10 @@ copy $(SolutionDir)\shaders\* $(OutDir)..\shaders\</Command>
     <ClCompile Include="src\private\Triangle.cpp" />
     <ClCompile Include="src\private\Texture.cpp" />
     <ClCompile Include="src\private\VertexUV.cpp" />
-    <ClCompile Include="VertexBuffer.cpp" />
+    <ClCompile Include="src\private\VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\public\CameraClass.h" />
     <ClInclude Include="src\public\IndexBuffer.h" />
     <ClInclude Include="src\public\InputLayout.h" />
     <ClInclude Include="src\public\InputProcessor.h" />

@@ -10,6 +10,7 @@ class TransformBuffer
 {
 public:
 	Matrix4f transformMatrix;
+
 	TransformBuffer()
 	{
 		memset(&transformMatrix, 0, sizeof(transformMatrix));

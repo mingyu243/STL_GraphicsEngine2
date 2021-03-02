@@ -6,7 +6,9 @@ Mouse InputProcessor::mouse;
 void InputProcessor::InitializeInput(HWND hwnd)
 {
     mouse.SetWindow(hwnd);
-    mouse.SetMode(Mouse::Mode::MODE_ABSOLUTE);
+
+    //mouse.SetMode(Mouse::Mode::MODE_ABSOLUTE); // 마우스의 절대 위치.
+    mouse.SetMode(Mouse::Mode::MODE_RELATIVE); // 이전 프레임 마우스, 현재 프레임 마우스의 상대 위치. (그 대신 마우스 포인터 안 보임.)
 }
 
 bool InputProcessor::IsKeyDown(Keyboard::Keys key)
