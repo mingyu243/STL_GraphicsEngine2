@@ -108,11 +108,55 @@ bool DXApp::InitializeDirect3D()
     // 임시 버퍼(리소스) 해제.
     backbufferTexture->Release(); // delete 키워드와 하는 일이 같지만, Release로 해야 안전하게 해제 가능.
 
+    // 뎁스 스텐실 뷰 (DepthStencilView)
+    D3D11_TEXTURE2D_DESC depthStencilDesc;
+    memset(&depthStencilDesc, 0, sizeof(depthStencilDesc));
+    depthStencilDesc.Width = Window::Width();
+    depthStencilDesc.Height = Window::Height();
+    depthStencilDesc.MipLevels = 1; // 밉맵. 원본 하나만 쓴다는 뜻.
+    depthStencilDesc.ArraySize = 1; // 다른 리소스 쓰지 않고, 이것만 쓴다는 뜻.
+    depthStencilDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT; // D는 Depth(UNORM unsigned normalized), S는 Stencil. 24+8 총 32bit
+    
+    depthStencilDesc.SampleDesc.Count = 1;
+    depthStencilDesc.SampleDesc.Quality = 0;
+    
+    depthStencilDesc.Usage = D3D11_USAGE_DEFAULT; // 사용 목적. 이 프로젝트에서는 모두 Default 값 사용 중.
+    depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL; // 뎁스 스텐실로 쓸 것이다.
+    depthStencilDesc.CPUAccessFlags = 0;
+    depthStencilDesc.MiscFlags = 0;
+
+    // 뎁스 스텐실 버퍼 생성.
+    ComPtr<ID3D11Texture2D> depthStecilBuffer;
+    result = device.Get()->CreateTexture2D(
+        &depthStencilDesc,
+        NULL,
+        depthStecilBuffer.GetAddressOf()
+    );
+    if (FAILED(result))
+    {
+        MessageBox(nullptr, L"뎁스 스텐실 버퍼 생성 실패", L"오류", 0);
+        return false;
+    }
+    // 뎁스 스텐실 버퍼는 언제 채워지나?
+
+    // 뎁스 스텐실 뷰 생성.
+    result = device.Get()->CreateDepthStencilView(
+        depthStecilBuffer.Get(),
+        NULL,
+        depthStencilView.GetAddressOf()
+    );
+    if (FAILED(result))
+    {
+        MessageBox(nullptr, L"뎁스 스텐실 뷰 생성 실패", L"오류", 0);
+        return false;
+    }
+
     // 렌더 타겟 뷰 할당.(설정)
+    // 디퍼드 렌더링 | 포워드 렌더링.
     deviceContext.Get()->OMSetRenderTargets( // OM : Output Merger 합쳐준다는 의미. 얘는 성공 실패 반환 안 함.
         1, // 화면을 4개로 나눈다면, 4가 입력됨.
         renderTargetView.GetAddressOf(),
-        nullptr
+        depthStencilView.Get()
     );
 
     // 뷰포트(화면) - 크기 설정.

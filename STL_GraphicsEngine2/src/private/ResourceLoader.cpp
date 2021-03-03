@@ -205,6 +205,92 @@ void ResourceLoader::LoadModel(std::string filename, std::vector<VertexUV>* vert
 	}
 }
 
+void ResourceLoader::LoadModel(std::string filename, std::vector<VertexPTN>* vertices, std::vector<unsigned int>* indices)
+{
+	// 리소스 경로 추가.
+	filename = std::string("..//res//models//") + filename;
+
+	// 옵션 설정.
+	const aiScene* scene = aiImportFile(
+		filename.c_str(),
+		aiProcess_JoinIdenticalVertices |
+		aiProcess_ValidateDataStructure |
+		aiProcess_ImproveCacheLocality |
+		aiProcess_RemoveRedundantMaterials |
+		aiProcess_GenUVCoords |
+		aiProcess_TransformUVCoords |
+		aiProcess_FindInstances |
+		aiProcess_LimitBoneWeights |
+		aiProcess_OptimizeMeshes |
+		aiProcess_GenSmoothNormals |
+		aiProcess_SplitLargeMeshes |
+		aiProcess_Triangulate | // 폴리곤이 사각형이면, 삼각형을 쪼갬. 엔진에서도 다 그럼.
+		aiProcess_ConvertToLeftHanded |
+		aiProcess_SortByPType
+	);
+
+	// 임포트.
+	if (scene != nullptr)
+	{
+		const aiMesh* mesh = scene->mMeshes[0]; // 원래는 여러 개 있을 수도 있어서, 루프 돌아야 함.
+
+		vertices->reserve((size_t)mesh->mNumVertices);
+		indices->reserve((size_t)(mesh->mNumFaces) * 3);
+
+		// 정점 배열 채우기.
+		for (int ix = 0; ix < mesh->mNumVertices; ix++)
+		{
+			// 위치 읽어오기.
+			Vector3f position = Vector3f(
+				mesh->mVertices[ix].x,
+				mesh->mVertices[ix].y,
+				mesh->mVertices[ix].z
+			);
+
+			// UV 읽어오기.
+			Vector2f uv;
+			if (mesh->HasTextureCoords(0))
+			{
+				uv = Vector2f(
+					mesh->mTextureCoords[0][ix].x,
+					mesh->mTextureCoords[0][ix].y
+				);
+			}
+			else
+			{
+				uv = Vector2f(0.0f, 0.0f);
+			}
+
+			Vector3f normal;
+			if (mesh->HasNormals() == true)
+			{
+				normal = Vector3f(mesh->mNormals[ix].x, mesh->mNormals[ix].y, mesh->mNormals[ix].z);
+			}
+			else
+			{
+				normal = Vector3f(0.0f, 0.0f, 0.0f);
+			}
+
+			VertexPTN vertex = VertexPTN(position, uv, normal);
+			vertices->push_back(vertex);
+		}
+
+		// 인덱스 배열 채우기.
+		for (unsigned int ix = 0; ix < mesh->mNumFaces; ix++)
+		{
+			const aiFace& face = mesh->mFaces[ix];
+			indices->push_back(face.mIndices[0]);
+			indices->push_back(face.mIndices[1]);
+			indices->push_back(face.mIndices[2]);
+		}
+	}
+	else
+	{
+		MessageBox(nullptr, L"모델 로드 실패", L"오류", 0);
+		throw std::exception("모델 로드 실패");
+	}
+}
+
 std::wstring ResourceLoader::GetExtension(std::wstring str)
 {
 	size_t size = str.rfind('.', str.length());

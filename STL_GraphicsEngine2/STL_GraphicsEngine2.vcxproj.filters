@@ -99,6 +99,21 @@
     <ClCompile Include="src\private\CameraClass.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="src\private\VertexPTN.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\private\ModelPTN.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\private\DiffuseShader.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\private\LightData.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\private\LightBuffer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\public\DXApp.h">
@@ -182,11 +197,28 @@
     <ClInclude Include="src\public\CameraClass.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="src\public\VertexPTN.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="src\public\ModelPTN.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="src\public\DiffuseShader.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="src\public\LightData.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="src\public\LightBuffer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\shaders\BasicPS.hlsl" />
     <FxCompile Include="..\shaders\BasicVS.hlsl" />
     <FxCompile Include="..\shaders\TextureMappingPS.hlsl" />
     <FxCompile Include="..\shaders\TextureMappingVS.hlsl" />
+    <FxCompile Include="..\shaders\DiffusePS.hlsl" />
+    <FxCompile Include="..\shaders\DiffuseVS.hlsl" />
   </ItemGroup>
 </Project>

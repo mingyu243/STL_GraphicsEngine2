@@ -3,9 +3,6 @@
 
 #include "Vertex.h"
 
-#include "BasicShader.h"
-#include "TextureMappingShader.h"
-
 #include "InputProcessor.h"
 
 #include "MathUtil.h"
@@ -111,7 +108,21 @@ void Engine::Update()
     }
 
     camera.UpdateCamera();
-    modelUV.UpdateBuffers(deviceContext.Get());
+    modelPTN.UpdateBuffers(deviceContext.Get());
+
+    static float lightXPos = lightBuffer.data.position.x;
+    static float direction = 1.0f;
+    lightXPos += 10.0f * direction;
+    if (lightXPos >= 500.0f)
+    {
+        direction = -1.0f;
+    }
+    if (lightXPos <= -500.0f)
+    {
+        direction = 1.0f;
+    }
+    lightBuffer.data.position.x = lightXPos;
+    lightBuffer.data.position.y = lightXPos;
 }
 
 void Engine::DrawScene()
@@ -123,12 +134,22 @@ void Engine::DrawScene()
     // Begin Draw(Render) - DX9.
     deviceContext.Get()->ClearRenderTargetView(renderTargetView.Get(), backgroundColor);
 
+    // 뎁스 지우기
+    deviceContext.Get()->ClearDepthStencilView(
+        depthStencilView.Get(),
+        D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, // 비트 연산이 빠름.
+        1.0f, 0 // 보통 뎁스는 1로 초기화, 스텐실은 0으로 초기화.
+    );
+
     // 카메라 바인딩.
     camera.BindBuffer(deviceContext.Get());
 
+    // 라이트 버퍼 바인딩.  
+    lightBuffer.Bind(deviceContext.Get());
+
     // 그리기 준비. (쉐이더 바꾸기.)
-    textureShader.Bind(deviceContext.Get());
-    modelUV.RenderBuffers(deviceContext.Get());
+    diffuseShader.Bind(deviceContext.Get());
+    modelPTN.RenderBuffers(deviceContext.Get());
 
     // 프레임 바꾸기. FrontBuffer <-> BackBuffer.
     swapChain.Get()->Present(1, 0);
@@ -153,27 +174,24 @@ bool Engine::InitializeScene()
         return false;
     }
 
-    if (BasicShader::Compile(device.Get()) == false)
-    {
-        return false;
-    }
-    if (BasicShader::Create(device.Get()) == false)
-    {
-        return false;
-    }
-
-    if (textureShader.Initialize(device.Get(), L"T_Chr_FPS_D.png") == false)
+    lightBuffer.data.position = Vector3f(500.0f, 500.0f, -500.0f);
+    if (lightBuffer.Create(device.Get()) == false)
     {
         return false;
     }
 
-    if (modelUV.InitializeBuffers(device.Get(), textureShader.ShaderBuffer(), "HeroTPP.FBX") == false)
+    if (diffuseShader.Initialize(device.Get(), L"T_CharM_Warrior_D.TGA") == false)
     {
         return false;
     }
-    modelUV.SetPosition(0.0f, -90.0f, 0.5f);
-    modelUV.SetRotation(-90.0f, 0.0f, 0.0f);
-    modelUV.SetScale(1.0f, 1.0f, 1.0f);
+
+    if (modelPTN.InitializeBuffers(device.Get(), diffuseShader.ShaderBuffer(), "SK_CharM_Warrior.fbx") == false)
+    {
+        return false;
+    }
+    modelPTN.SetPosition(0.0f, -90.0f, 0.5f);
+    modelPTN.SetRotation(-90.0f, 0.0f, 0.0f);
+    modelPTN.SetScale(1.0f, 1.0f, 1.0f);
 
     return true;
 }
