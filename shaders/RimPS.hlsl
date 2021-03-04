@@ -5,6 +5,8 @@ struct ps_input
     float2 texCoord : TEXCOORD;
     float3 normal : NORMAL;
     float3 worldPosition : TEXCOORD1;
+    
+    float3 cameraDirection : TEXCOORD2;
 };
 
 // 라이트 버퍼.
@@ -41,10 +43,40 @@ float4 main(ps_input input) : SV_TARGET
     //NdotL = saturate(NdotL);
     
     NdotL = pow((NdotL * 0.5f) + 0.5f, 2); // 하프 램버트.
-    //NdotL = ceil(NdotL * 3) / 3; // 툰 쉐이딩.
     
-    float4 final = NdotL * color;
+    float step = 3;
+    //NdotL = ceil(NdotL * step) / step; // 툰 쉐이더 느낌내기.
     
-    return float4(NdotL, NdotL, NdotL, 1.0f);
-    //return final;
+    
+    // 스페큘러.
+    float3 reflection = reflect(lightDir, worldNormal);
+    float3 cameraDirection = normalize(input.cameraDirection);
+    
+    // 퐁 쉐이더. 너무 동글동글함.
+    float specular = 0;
+    if (NdotL > 0)
+    {
+        float RdotV = dot(reflection, -cameraDirection);
+        specular = saturate(RdotV);
+        specular = pow(specular, 15.0f);
+    }
+
+
+    
+    // 림 라이트.
+    float rim = 0;
+    rim = 1 - saturate(dot(worldNormal, -cameraDirection));
+    rim = pow(rim, 3.0f); // 강도 조정.
+    
+    // 색 입히기.
+    float3 rimColor = float3(0.8f, 0.2f, 0.1f);
+    rimColor = rim * rimColor;
+    
+    // 디퓨즈 + 스페큘러.
+    float4 final = (NdotL * color) + (specular * color) + float4(rimColor, 1);
+    
+    return final;
+    //return float4(rimColor, 1);
+    //return float4(rim, rim, rim, 1);
+
 }

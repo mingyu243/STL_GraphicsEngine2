@@ -5,6 +5,8 @@ struct ps_input
     float2 texCoord : TEXCOORD;
     float3 normal : NORMAL;
     float3 worldPosition : TEXCOORD1;
+    
+    float3 cameraDirection : TEXCOORD2;
 };
 
 // ¶óÀÌÆ® ¹öÆÛ.
@@ -41,10 +43,34 @@ float4 main(ps_input input) : SV_TARGET
     //NdotL = saturate(NdotL);
     
     NdotL = pow((NdotL * 0.5f) + 0.5f, 2); // ÇÏÇÁ ·¥¹öÆ®.
-    //NdotL = ceil(NdotL * 3) / 3; // Å÷ ½¦ÀÌµù.
     
-    float4 final = NdotL * color;
+    float step = 3;
+    NdotL = ceil(NdotL * step) / step; // Å÷ ½¦ÀÌ´õ ´À³¦³»±â.
     
-    return float4(NdotL, NdotL, NdotL, 1.0f);
-    //return final;
+    
+    // ½ºÆäÅ§·¯.
+    float3 reflection = reflect(lightDir, worldNormal);
+    float3 cameraDirection = normalize(input.cameraDirection);
+    
+    //// Æþ ½¦ÀÌ´õ. ³Ê¹« µ¿±Ûµ¿±ÛÇÔ.
+    //float specular = 0;
+    //if (NdotL > 0)
+    //{
+    //    float RdotV = dot(reflection, -cameraDirection);
+    //    specular = saturate(RdotV);
+    //    specular = pow(specular, 15.0f);
+    //}
+    
+    // ºí¸°-Æþ(Blinn-Phong)
+    float3 halfVector = normalize((-cameraDirection) + (-lightDir));
+    float specular = 0;
+    if (NdotL > 0)
+    {
+        float HdotN = saturate(dot(halfVector, worldNormal));
+        specular = pow(HdotN, 100.0f);
+    }
+
+    float4 final = (NdotL * color) + (specular * color);
+    
+    return float4(specular, specular, specular, 1.0f);
 }

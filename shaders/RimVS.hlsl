@@ -30,6 +30,7 @@ struct vs_output
     float3 normal : NORMAL;
     float3 worldPosition : TEXCOORD1; // 우리의 필요로 변수를 만들었기 때문에, TEXCOORD1 시멘틱을 썼다.
 	
+    float3 cameraDirection : TEXCOORD2;
 };
 
 // float4 main(float4 position : POSITION) : SV_POSITION
@@ -47,6 +48,7 @@ vs_output main(vs_input input)
 	// normal도 월드변환.
     output.normal = mul(input.normal, (float3x3)world);
 	
-		
+    output.cameraDirection = normalize(output.worldPosition - cameraPosition);
+	
 	return output;
 }

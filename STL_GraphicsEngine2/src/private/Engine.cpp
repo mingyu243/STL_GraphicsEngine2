@@ -109,6 +109,7 @@ void Engine::Update()
 
     camera.UpdateCamera();
     modelPTN.UpdateBuffers(deviceContext.Get());
+    modelPTN2.UpdateBuffers(deviceContext.Get());
 
     static float lightXPos = lightBuffer.data.position.x;
     static float direction = 1.0f;
@@ -121,8 +122,7 @@ void Engine::Update()
     {
         direction = 1.0f;
     }
-    lightBuffer.data.position.x = lightXPos;
-    lightBuffer.data.position.y = lightXPos;
+    //lightBuffer.data.position.x = lightXPos;
 }
 
 void Engine::DrawScene()
@@ -151,6 +151,9 @@ void Engine::DrawScene()
     diffuseShader.Bind(deviceContext.Get());
     modelPTN.RenderBuffers(deviceContext.Get());
 
+    specularShader.Bind(deviceContext.Get());
+    modelPTN2.RenderBuffers(deviceContext.Get());
+
     // 프레임 바꾸기. FrontBuffer <-> BackBuffer.
     swapChain.Get()->Present(1, 0);
 }
@@ -166,7 +169,7 @@ bool Engine::InitializeScene()
         1000.0f
     );
     // 카메라 위치 설정.
-    camera.SetPosition(0.0f, 0.0f, -200.0f);
+    camera.SetPosition(100.0f, 0.0f, -200.0f);
 
     // 카메라 버퍼 생성.
     if (camera.CreateBuffer(device.Get()) == false)
@@ -185,13 +188,26 @@ bool Engine::InitializeScene()
         return false;
     }
 
+    if (specularShader.Initialize(device.Get(), L"T_CharM_Warrior_D.TGA") == false)
+    {
+        return false;
+    }
+
     if (modelPTN.InitializeBuffers(device.Get(), diffuseShader.ShaderBuffer(), "SK_CharM_Warrior.fbx") == false)
     {
         return false;
     }
-    modelPTN.SetPosition(0.0f, -90.0f, 0.5f);
+    modelPTN.SetPosition(-100.0f, -90.0f, 0.5f);
     modelPTN.SetRotation(-90.0f, 0.0f, 0.0f);
     modelPTN.SetScale(1.0f, 1.0f, 1.0f);
+
+    if (modelPTN2.InitializeBuffers(device.Get(), specularShader.ShaderBuffer(), "SK_CharM_Warrior.fbx") == false)
+    {
+        return false;
+    }
+    modelPTN2.SetPosition(100.0f, -90.0f, 0.5f);
+    modelPTN2.SetRotation(-90.0f, 0.0f, 0.0f);
+    modelPTN2.SetScale(1.0f, 1.0f, 1.0f);
 
     return true;
 }

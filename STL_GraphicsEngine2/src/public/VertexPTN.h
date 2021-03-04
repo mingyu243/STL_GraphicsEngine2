@@ -6,6 +6,7 @@
 class VertexPTN
 {
 public:
+	// 변수 순서도 중요함.
 	Vector3f position;
 	Vector2f uv;
 	Vector3f normal;

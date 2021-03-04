@@ -7,6 +7,17 @@
 #include <wrl.h>
 using Microsoft::WRL::ComPtr; // Com 객체를 간접적으로 New, Delete 하는 용도. DirectX가 Com 객체를 쓰기 때문에 이거를 씀.
 
+class CameraBufferData
+{
+public:
+	Matrix4f viewProjection;
+	Vector3f cameraPosition;
+	float pad1;
+
+	CameraBufferData() = default;
+	~CameraBufferData() = default;
+};
+
 // 뷰 변환. / 투영 변환.
 class Camera
 {

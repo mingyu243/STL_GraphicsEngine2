@@ -51,17 +51,19 @@ bool Camera::CreateBuffer(ID3D11Device* device)
 {
 	D3D11_BUFFER_DESC cameraBufferDesc;
 	memset(&cameraBufferDesc, 0, sizeof(cameraBufferDesc));
-	cameraBufferDesc.ByteWidth = sizeof(Matrix4f) * 2;
+	cameraBufferDesc.ByteWidth = sizeof(CameraBufferData);
 	cameraBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	cameraBufferDesc.Usage = D3D11_USAGE_DEFAULT;
 	cameraBufferDesc.CPUAccessFlags = 0;
 	cameraBufferDesc.MiscFlags = 0;
 
-	Matrix4f cameraMatrix = viewMatrix * projectionMatrix;
+	CameraBufferData cameraData;
+	cameraData.viewProjection = viewMatrix * projectionMatrix;
+	cameraData.cameraPosition = position;
 
 	D3D11_SUBRESOURCE_DATA data;
 	memset(&data, 0, sizeof(data));
-	data.pSysMem = &cameraMatrix;
+	data.pSysMem = &cameraData;
 
 	HRESULT result = device->CreateBuffer(
 		&cameraBufferDesc,
@@ -81,9 +83,11 @@ bool Camera::CreateBuffer(ID3D11Device* device)
 
 void Camera::BindBuffer(ID3D11DeviceContext* deviceContext)
 {
-	Matrix4f cameraMatrix = viewMatrix * projectionMatrix;
+	CameraBufferData cameraData;
+	cameraData.viewProjection = viewMatrix * projectionMatrix;
+	cameraData.cameraPosition = position;
 
-	deviceContext->UpdateSubresource(cameraBuffer.Get(), NULL, nullptr, &cameraMatrix, 0, 0);
+	deviceContext->UpdateSubresource(cameraBuffer.Get(), NULL, nullptr, &cameraData, 0, 0);
 	deviceContext->VSSetConstantBuffers(1, 1, cameraBuffer.GetAddressOf());
 }
 

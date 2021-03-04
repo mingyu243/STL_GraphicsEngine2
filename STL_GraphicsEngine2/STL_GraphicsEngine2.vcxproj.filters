@@ -114,6 +114,12 @@
     <ClCompile Include="src\private\LightBuffer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="src\private\SpecularShader.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\private\GameTimer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\public\DXApp.h">
@@ -212,6 +218,12 @@
     <ClInclude Include="src\public\LightBuffer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="src\public\SpecularShader.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="src\public\GameTimer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\shaders\BasicPS.hlsl" />
@@ -220,5 +232,9 @@
     <FxCompile Include="..\shaders\TextureMappingVS.hlsl" />
     <FxCompile Include="..\shaders\DiffusePS.hlsl" />
     <FxCompile Include="..\shaders\DiffuseVS.hlsl" />
+    <FxCompile Include="..\shaders\SpecularPS.hlsl" />
+    <FxCompile Include="..\shaders\SpecularVS.hlsl" />
+    <FxCompile Include="..\shaders\RimPS.hlsl" />
+    <FxCompile Include="..\shaders\RimVS.hlsl" />
   </ItemGroup>
 </Project>
