@@ -12,6 +12,7 @@
 #include "Vertex.h"
 #include "VertexUV.h"
 #include "VertexPTN.h"
+#include "VertexPTNBT.h"
 
 // assimp 라이브러리.
 #include <Importer.hpp>
@@ -32,6 +33,7 @@ public:
 	static void LoadModel(std::string filename, std::vector<Vertex>* vertices, std::vector<unsigned int>* indices);
 	static void LoadModel(std::string filename, std::vector<VertexUV>* vertices, std::vector<unsigned int>* indices);
 	static void LoadModel(std::string filename, std::vector<VertexPTN>* vertices, std::vector<unsigned int>* indices);
+	static void LoadModel(std::string filename, std::vector<VertexPTNBT>* vertices, std::vector<unsigned int>* indices);
 
 	static std::wstring GetExtension(std::wstring str);
 

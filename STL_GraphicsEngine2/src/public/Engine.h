@@ -6,6 +6,7 @@
 
 #include "DiffuseShader.h"
 #include "SpecularShader.h"
+#include "NormalMappingShader.h"
 
 #include "Mesh.h"
 #include "Triangle.h"
@@ -13,6 +14,7 @@
 #include "QuadUV.h"
 #include "ModelUV.h"
 #include "ModelPTN.h"
+#include "ModelPTNBT.h"
 
 #include "Matrix4f.h"
 
@@ -42,9 +44,11 @@ private:
 	
 	DiffuseShader diffuseShader;
 	SpecularShader specularShader;
+	NormalMappingShader normalMappingShader;
 
 	ModelPTN modelPTN;
 	ModelPTN modelPTN2;
+	ModelPTNBT modelPTNBT;
 
 	Camera camera;
 

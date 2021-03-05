@@ -7,6 +7,8 @@
 
 #include "MathUtil.h"
 
+#include "GameTimer.h"
+
 Engine::Engine(HINSTANCE hInstance, int width, int height, std::wstring title)
     : DXApp(hInstance, width, height, title)
 {
@@ -42,6 +44,10 @@ int Engine::Run()
     MSG msg;
     ZeroMemory(&msg, sizeof(msg));
 
+    // 타이머 시작.
+    GameTimer::Start();
+
+
     while (msg.message != WM_QUIT)
     {
         if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE) == TRUE)
@@ -60,6 +66,9 @@ int Engine::Run()
                     return 0;
                 }
             }
+
+            // 타이머 업데이트.
+            GameTimer::Update();
            
             Update();
             DrawScene();
@@ -71,6 +80,8 @@ int Engine::Run()
 
 void Engine::Update()
 {
+    double deltaTime = GameTimer::DeltaTime();
+
     // 카메라 이동 처리.
     static float moveSpeed = 2.0f;
     if (InputProcessor::IsKeyDown(Keyboard::Keys::W) == true)
@@ -110,6 +121,7 @@ void Engine::Update()
     camera.UpdateCamera();
     modelPTN.UpdateBuffers(deviceContext.Get());
     modelPTN2.UpdateBuffers(deviceContext.Get());
+    modelPTNBT.UpdateBuffers(deviceContext.Get());
 
     static float lightXPos = lightBuffer.data.position.x;
     static float direction = 1.0f;
@@ -122,7 +134,7 @@ void Engine::Update()
     {
         direction = 1.0f;
     }
-    //lightBuffer.data.position.x = lightXPos;
+    lightBuffer.data.position.x = lightXPos;
 }
 
 void Engine::DrawScene()
@@ -153,6 +165,9 @@ void Engine::DrawScene()
 
     specularShader.Bind(deviceContext.Get());
     modelPTN2.RenderBuffers(deviceContext.Get());
+
+    normalMappingShader.Bind(deviceContext.Get());
+    modelPTNBT.RenderBuffers(deviceContext.Get());
 
     // 프레임 바꾸기. FrontBuffer <-> BackBuffer.
     swapChain.Get()->Present(1, 0);
@@ -193,11 +208,16 @@ bool Engine::InitializeScene()
         return false;
     }
 
+    if (normalMappingShader.Initialize(device.Get(), L"T_CharM_Warrior_D.TGA", L"T_CharM_Warrior_N.TGA") == false)
+    {
+        return false;
+    }
+
     if (modelPTN.InitializeBuffers(device.Get(), diffuseShader.ShaderBuffer(), "SK_CharM_Warrior.fbx") == false)
     {
         return false;
     }
-    modelPTN.SetPosition(-100.0f, -90.0f, 0.5f);
+    modelPTN.SetPosition(100.0f, -90.0f, 0.5f);
     modelPTN.SetRotation(-90.0f, 0.0f, 0.0f);
     modelPTN.SetScale(1.0f, 1.0f, 1.0f);
 
@@ -205,9 +225,17 @@ bool Engine::InitializeScene()
     {
         return false;
     }
-    modelPTN2.SetPosition(100.0f, -90.0f, 0.5f);
+    modelPTN2.SetPosition(-100.0f, -90.0f, 0.5f);
     modelPTN2.SetRotation(-90.0f, 0.0f, 0.0f);
     modelPTN2.SetScale(1.0f, 1.0f, 1.0f);
+
+    if (modelPTNBT.InitializeBuffers(device.Get(), normalMappingShader.ShaderBuffer(), "SK_CharM_Warrior.fbx") == false)
+    {
+        return false;
+    }
+    modelPTNBT.SetPosition(300.0f, -90.0f, 0.5f);
+    modelPTNBT.SetRotation(-90.0f, 0.0f, 0.0f);
+    modelPTNBT.SetScale(1.0f, 1.0f, 1.0f);
 
     return true;
 }

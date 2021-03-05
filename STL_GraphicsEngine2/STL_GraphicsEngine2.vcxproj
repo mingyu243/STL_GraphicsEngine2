@@ -188,7 +188,9 @@ copy $(SolutionDir)\shaders\* $(OutDir)..\shaders\</Command>
     <ClCompile Include="src\private\IndexBuffer.cpp" />
     <ClCompile Include="src\private\InputLayout.cpp" />
     <ClCompile Include="src\private\InputProcessor.cpp" />
+    <ClCompile Include="src\private\ModelPTNBT.cpp" />
     <ClCompile Include="src\private\ModelUV.cpp" />
+    <ClCompile Include="src\private\NormalMappingShader.cpp" />
     <ClCompile Include="src\private\QuadUV.cpp" />
     <ClCompile Include="src\private\ResourceLoader.cpp" />
     <ClCompile Include="src\private\Quad.cpp" />
@@ -205,6 +207,7 @@ copy $(SolutionDir)\shaders\* $(OutDir)..\shaders\</Command>
     <ClCompile Include="src\private\TextureMappingShader.cpp" />
     <ClCompile Include="src\private\Vector2f.cpp" />
     <ClCompile Include="src\private\Vertex.cpp" />
+    <ClCompile Include="src\private\VertexPTNBT.cpp" />
     <ClCompile Include="src\private\Window.cpp" />
     <ClCompile Include="src\private\VertexShader.cpp" />
     <ClCompile Include="src\private\Vector3f.cpp" />
@@ -225,7 +228,9 @@ copy $(SolutionDir)\shaders\* $(OutDir)..\shaders\</Command>
     <ClInclude Include="src\public\IndexBuffer.h" />
     <ClInclude Include="src\public\InputLayout.h" />
     <ClInclude Include="src\public\InputProcessor.h" />
+    <ClInclude Include="src\public\ModelPTNBT.h" />
     <ClInclude Include="src\public\ModelUV.h" />
+    <ClInclude Include="src\public\NormalMappingShader.h" />
     <ClInclude Include="src\public\QuadUV.h" />
     <ClInclude Include="src\public\ResourceLoader.h" />
     <ClInclude Include="src\public\Quad.h" />
@@ -242,6 +247,7 @@ copy $(SolutionDir)\shaders\* $(OutDir)..\shaders\</Command>
     <ClInclude Include="src\public\Vector2f.h" />
     <ClInclude Include="src\public\Vertex.h" />
     <ClInclude Include="src\public\VertexBuffer.h" />
+    <ClInclude Include="src\public\VertexPTNBT.h" />
     <ClInclude Include="src\public\Window.h" />
     <ClInclude Include="src\public\VertexShader.h" />
     <ClInclude Include="src\public\Vector3f.h" />
@@ -287,6 +293,26 @@ copy $(SolutionDir)\shaders\* $(OutDir)..\shaders\</Command>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="..\shaders\DiffuseVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\shaders\NormalMappingPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\shaders\NormalMappingVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
