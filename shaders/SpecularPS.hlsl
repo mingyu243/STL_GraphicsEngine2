@@ -52,7 +52,7 @@ float4 main(ps_input input) : SV_TARGET
     float3 reflection = reflect(lightDir, worldNormal);
     float3 cameraDirection = normalize(input.cameraDirection);
     
-    //// 퐁 쉐이더. 너무 동글동글함.
+    // 퐁 쉐이더. 너무 동글동글함.
     //float specular = 0;
     //if (NdotL > 0)
     //{
