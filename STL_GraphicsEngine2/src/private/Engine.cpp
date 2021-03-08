@@ -242,7 +242,7 @@ bool Engine::InitializeScene()
     {
         return false;
     }
-    modelPTN3.SetPosition(70.0f, -90.0f, -20.0f);
+    modelPTN3.SetPosition(70.0f, -90.0f, 0.0f);
     modelPTN3.SetRotation(-90.0f, 0.0f, 0.0f);
     modelPTN3.SetScale(1.0f, 1.0f, 1.0f);
 

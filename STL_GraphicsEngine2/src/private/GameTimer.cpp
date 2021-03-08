@@ -4,7 +4,8 @@
 #include <string>
 
 double GameTimer::countsPerSecond;
-__int64 GameTimer::countStart;
+__int64 GameTimer::countFrameStart; // 프레임 계산용 타이머.
+__int64 GameTimer::countStart; // 시작부터 재는 타이머.
 int GameTimer::frameCount;
 int GameTimer::fps;
 __int64 GameTimer::previousFrameTime;
@@ -22,11 +23,23 @@ void GameTimer::Start()
 	// 일정 시점에 진동한 진동 수.
 	QueryPerformanceCounter(&frequencyCount); // 여기서 50이 기록되면, 0.5초 지났다고 생각한다.
 	countStart = frequencyCount.QuadPart;
+	countFrameStart = countStart;
 }
 
 double GameTimer::GetTime()
 {
 	// 엔진이 시작된 후로부터 지난 시간.
+	LARGE_INTEGER currentTime;
+	QueryPerformanceCounter(&currentTime);
+
+	double time = (double)(currentTime.QuadPart - countStart) / countsPerSecond;
+
+	return time;
+}
+
+// 시간 받아서 그 때부터 몇초 흘렀나.?
+double GameTimer::GetTime(int countStart)
+{
 	LARGE_INTEGER currentTime;
 	QueryPerformanceCounter(&currentTime);
 
@@ -76,7 +89,7 @@ void GameTimer::Update()
 {
 	frameCount++;
 
-	if (GetTime() > 1.0)
+	if (GetTime(countFrameStart) > 1.0)
 	{
 		Reset();
 	}
@@ -91,8 +104,11 @@ void GameTimer::Reset()
 	// 프레임 수 계산을 위한 변수 초기화.
 	frameCount = 0;
 
-	// 타이머 재시작.
-	Start();
+	LARGE_INTEGER frequencyCount;
+	QueryPerformanceFrequency(&frequencyCount);
+	countsPerSecond = (double)(frequencyCount.QuadPart);
+	QueryPerformanceCounter(&frequencyCount);
+	countFrameStart = frequencyCount.QuadPart;
 
 	// 윈도우(창)의 제목 변경. (프레임 수 추가.)
 	std::wstring title;

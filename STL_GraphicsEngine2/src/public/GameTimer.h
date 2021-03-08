@@ -11,6 +11,7 @@ class GameTimer
 public:
 	static void Start();
 	static double GetTime();
+	static double GetTime(int countStart);
 	static double DeltaTime();
 	static float DeltaTimef();
 
@@ -21,6 +22,7 @@ public:
 
 private:
 	static double countsPerSecond;
+	static __int64 countFrameStart;
 	static __int64 countStart;
 	static int frameCount;
 	static int fps;

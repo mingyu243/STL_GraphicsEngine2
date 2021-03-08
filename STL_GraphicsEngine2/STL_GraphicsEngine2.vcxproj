@@ -218,7 +218,6 @@ copy $(SolutionDir)\shaders\* $(OutDir)..\shaders\</Command>
     <ClCompile Include="src\private\VertexUV.cpp" />
     <ClCompile Include="src\private\VertexBuffer.cpp" />
     <ClCompile Include="src\private\VertexPTN.cpp" />
-    <ClCompile Include="TimeBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\public\GameTimer.h" />
@@ -247,7 +246,6 @@ copy $(SolutionDir)\shaders\* $(OutDir)..\shaders\</Command>
     <ClInclude Include="src\public\DXApp.h" />
     <ClInclude Include="src\public\SpecularShader.h" />
     <ClInclude Include="src\public\TextureMappingShader.h" />
-    <ClInclude Include="src\public\TimeBuffer.h" />
     <ClInclude Include="src\public\Vector2f.h" />
     <ClInclude Include="src\public\Vertex.h" />
     <ClInclude Include="src\public\VertexBuffer.h" />

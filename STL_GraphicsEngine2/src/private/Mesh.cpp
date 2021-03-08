@@ -36,7 +36,7 @@ void Mesh::DrawBuffers(ID3D11DeviceContext* deviceContext)
 {
     // Draw
     //deviceContext->Draw(vertexCount, 0); // 이게 DrawCall이다.
-    deviceContext->DrawIndexed(indexBuffer.Count(), 0, 0);
+    deviceContext->DrawIndexed(indexBuffer.Count(), 0, 0); // 인덱스 버퍼로 그리려면 이거 씀.
 }
 
 void Mesh::UpdateBuffers(ID3D11DeviceContext* deviceContext)

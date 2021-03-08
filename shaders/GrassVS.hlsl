@@ -11,7 +11,7 @@ cbuffer camera : register(b1)
 {
     matrix viewProjection;
     float3 cameraPosition;
-    float pad1;
+    float pad1_Time;
 }
 
 // 정점 입력.
@@ -28,6 +28,8 @@ struct vs_output
 	float4 position : SV_POSITION; // 시스템이 쓰니까, SV 붙힘.
     float2 texCoord : TEXCOORD;
     float3 normal : NORMAL;
+    float time : TEXCOORD2;
+    float3 worldPosition : TEXCOORD3;
 };
 
 // float4 main(float4 position : POSITION) : SV_POSITION
@@ -35,8 +37,11 @@ struct vs_output
 vs_output main(vs_input input)
 {
 	vs_output output;
-	output.position = mul(input.position, world);
-    output.position = output.position + float4((1 - input.texCoord.y) * -10, 0, 0, 0);
+    output.position = input.position + float4((1 - input.texCoord.y) * (sin(pad1_Time * 2) * 5), 0, 0, 0);
+	output.position = mul(output.position, world);
+    
+	output.worldPosition = (float3)output.position;
+    output.time = pad1_Time;
 	
     output.position = mul(output.position, viewProjection);
 	

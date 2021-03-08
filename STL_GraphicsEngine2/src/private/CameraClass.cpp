@@ -1,4 +1,5 @@
 #include "CameraClass.h"
+#include "GameTimer.h"
 
 Camera::Camera()
 	: Camera(70.0f, 1280.0f, 800.0f, 0.1f, 1000.0f)
@@ -86,6 +87,7 @@ void Camera::BindBuffer(ID3D11DeviceContext* deviceContext)
 	CameraBufferData cameraData;
 	cameraData.viewProjection = viewMatrix * projectionMatrix;
 	cameraData.cameraPosition = position;
+	cameraData.pad1_Time = (float)GameTimer::GetTime();
 
 	deviceContext->UpdateSubresource(cameraBuffer.Get(), NULL, nullptr, &cameraData, 0, 0);
 	deviceContext->VSSetConstantBuffers(1, 1, cameraBuffer.GetAddressOf());
@@ -114,16 +116,16 @@ void Camera::UpdateCamera()
 	Matrix4f rotationMatrix = Matrix4f::Rotation(pitch, yaw, 0.0f);
 
 	// 카메라가 바라봐야하는 위치 조정.
-	look = rotationMatrix * Vector3f::Forward;
+	look = rotationMatrix * Vector3f::Forward; // 회전한 행렬의 앞 방향을 계산한다.
 	look = look.Normalized();	// 정규화.
 	
 	// 3인칭 카메라.
-	right = rotationMatrix * Vector3f::Right;
+	right = rotationMatrix * Vector3f::Right; // 변수 업데이트.
 	up = rotationMatrix * Vector3f::Up;
 	forward = rotationMatrix * Vector3f::Forward;
 
 	// 바라봐야하는 위치 조정.
-	look = position + look;
+	look = position + look; // 회전한 행렬의 앞 방향을 바라볼 수 있게.
 	UpdateViewMatrix();
 }
 

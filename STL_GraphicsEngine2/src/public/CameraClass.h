@@ -12,7 +12,7 @@ class CameraBufferData
 public:
 	Matrix4f viewProjection;
 	Vector3f cameraPosition;
-	float pad1;
+	float pad1_Time;
 
 	CameraBufferData() = default;
 	~CameraBufferData() = default;
