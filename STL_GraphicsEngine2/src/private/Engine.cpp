@@ -119,8 +119,9 @@ void Engine::Update()
     }
 
     camera.UpdateCamera();
-    modelPTN.UpdateBuffers(deviceContext.Get());
+    modelPTN1.UpdateBuffers(deviceContext.Get());
     modelPTN2.UpdateBuffers(deviceContext.Get());
+    modelPTN3.UpdateBuffers(deviceContext.Get());
     modelPTNBT.UpdateBuffers(deviceContext.Get());
 
     static float lightXPos = lightBuffer.data.position.x;
@@ -160,11 +161,14 @@ void Engine::DrawScene()
     lightBuffer.Bind(deviceContext.Get());
 
     // 그리기 준비. (쉐이더 바꾸기.)
-    diffuseShader.Bind(deviceContext.Get());
-    modelPTN.RenderBuffers(deviceContext.Get());
+    diffuseShader1.Bind(deviceContext.Get());
+    modelPTN1.RenderBuffers(deviceContext.Get());
 
-    specularShader.Bind(deviceContext.Get());
+    diffuseShader2.Bind(deviceContext.Get());
     modelPTN2.RenderBuffers(deviceContext.Get());
+
+    grassShader.Bind(deviceContext.Get());
+    modelPTN3.RenderBuffers(deviceContext.Get());
 
     normalMappingShader.Bind(deviceContext.Get());
     modelPTNBT.RenderBuffers(deviceContext.Get());
@@ -198,38 +202,51 @@ bool Engine::InitializeScene()
         return false;
     }
 
-    if (diffuseShader.Initialize(device.Get(), L"T_CharM_Warrior_D.TGA") == false)
+    if (diffuseShader1.Initialize(device.Get(), L"T_Char1_D.TGA") == false)
     {
         return false;
     }
 
-    if (specularShader.Initialize(device.Get(), L"T_CharM_Warrior_D.TGA") == false)
+    if (diffuseShader2.Initialize(device.Get(), L"T_Char2_D.png") == false)
     {
         return false;
     }
 
-    if (normalMappingShader.Initialize(device.Get(), L"T_CharM_Warrior_D.TGA", L"T_CharM_Warrior_N.TGA") == false)
+    if (grassShader.Initialize(device.Get(), L"T_Char2_D.png") == false)
     {
         return false;
     }
 
-    if (modelPTN.InitializeBuffers(device.Get(), diffuseShader.ShaderBuffer(), "SK_CharM_Warrior.fbx") == false)
+    if (normalMappingShader.Initialize(device.Get(), L"Char_M_Cardboard_D.png", L"Char_M_Cardboard_N.png") == false)
     {
         return false;
     }
-    modelPTN.SetPosition(100.0f, -90.0f, 0.5f);
-    modelPTN.SetRotation(-90.0f, 0.0f, 0.0f);
-    modelPTN.SetScale(1.0f, 1.0f, 1.0f);
 
-    if (modelPTN2.InitializeBuffers(device.Get(), specularShader.ShaderBuffer(), "SK_CharM_Warrior.fbx") == false)
+    if (modelPTN1.InitializeBuffers(device.Get(), diffuseShader1.ShaderBuffer(), "Char1.fbx") == false)
     {
         return false;
     }
-    modelPTN2.SetPosition(-100.0f, -90.0f, 0.5f);
-    modelPTN2.SetRotation(-90.0f, 0.0f, 0.0f);
+    modelPTN1.SetPosition(0.0f, -90.0f, 0.5f);
+    modelPTN1.SetRotation(-90.0f, 0.0f, 0.0f);
+    modelPTN1.SetScale(1.0f, 1.0f, 1.0f);
+
+    if (modelPTN2.InitializeBuffers(device.Get(), diffuseShader2.ShaderBuffer(), "Char2.fbx") == false)
+    {
+        return false;
+    }
+    modelPTN2.SetPosition(120.0f, -90.0f, 0.5f);
+    modelPTN2.SetRotation(0.0f, 0.0f, 0.0f);
     modelPTN2.SetScale(1.0f, 1.0f, 1.0f);
 
-    if (modelPTNBT.InitializeBuffers(device.Get(), normalMappingShader.ShaderBuffer(), "SK_CharM_Warrior.fbx") == false)
+    if (modelPTN3.InitializeBuffers(device.Get(), grassShader.ShaderBuffer(), "Grass.fbx") == false)
+    {
+        return false;
+    }
+    modelPTN3.SetPosition(70.0f, -90.0f, -20.0f);
+    modelPTN3.SetRotation(-90.0f, 0.0f, 0.0f);
+    modelPTN3.SetScale(1.0f, 1.0f, 1.0f);
+
+    if (modelPTNBT.InitializeBuffers(device.Get(), normalMappingShader.ShaderBuffer(), "SK_CharM_Cardboard.FBX") == false)
     {
         return false;
     }

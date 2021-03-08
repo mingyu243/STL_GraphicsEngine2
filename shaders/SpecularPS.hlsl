@@ -72,5 +72,5 @@ float4 main(ps_input input) : SV_TARGET
 
     float4 final = (NdotL * color) + (specular * color);
     
-    return float4(specular, specular, specular, 1.0f);
+    return final;
 }

@@ -62,20 +62,20 @@ float4 main(ps_input input) : SV_TARGET
     
     NdotL = pow((NdotL * 0.5f) + 0.5f, 2); // ÇÏÇÁ ·¥¹öÆ®.
     
+    //// ½ºÆäÅ§·¯.
+    //float3 reflection = reflect(lightDir, worldNormal);
+    //float3 cameraDirection = normalize(input.cameraDirection);
     
-    float3 cameraDirection = normalize(input.cameraDirection);
-    
-    // ºí¸°-Æþ(Blinn-Phong)
-    float3 halfVector = normalize((-cameraDirection) + (-lightDir));
-    float specular = 0;
-    if (NdotL > 0)
-    {
-        float HdotN = saturate(dot(halfVector, worldNormal));
-        specular = pow(HdotN, 100.0f);
-    }
+    //// Æþ ½¦ÀÌ´õ.
+    //float specular = 0;
+    //if (NdotL > 0)
+    //{
+    //    float RdotV = dot(reflection, -cameraDirection);
+    //    specular = saturate(RdotV);
+    //    specular = pow(specular, 100.0f);
+    //}
 
-    float4 final = (NdotL * diffuseColor) + (specular * diffuseColor);
-    final = NdotL + specular;
+    float4 final = (NdotL * diffuseColor);
     
     return final;
 }

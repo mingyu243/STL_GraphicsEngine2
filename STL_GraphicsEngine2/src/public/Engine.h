@@ -7,6 +7,7 @@
 #include "DiffuseShader.h"
 #include "SpecularShader.h"
 #include "NormalMappingShader.h"
+#include "GrassShader.h"
 
 #include "Mesh.h"
 #include "Triangle.h"
@@ -42,12 +43,14 @@ private:
 	// 장면 초기화.
 	bool InitializeScene();
 	
-	DiffuseShader diffuseShader;
-	SpecularShader specularShader;
+	DiffuseShader diffuseShader1;
+	DiffuseShader diffuseShader2;
+	GrassShader grassShader;
 	NormalMappingShader normalMappingShader;
 
-	ModelPTN modelPTN;
+	ModelPTN modelPTN1;
 	ModelPTN modelPTN2;
+	ModelPTN modelPTN3;
 	ModelPTNBT modelPTNBT;
 
 	Camera camera;

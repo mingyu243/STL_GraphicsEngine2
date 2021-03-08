@@ -41,10 +41,12 @@ float4 main(ps_input input) : SV_TARGET
     //NdotL = saturate(NdotL);
     
     NdotL = pow((NdotL * 0.5f) + 0.5f, 2); // ÇÏÇÁ ·¥¹öÆ®.
-    //NdotL = ceil(NdotL * 3) / 3; // Å÷ ½¦ÀÌµù.
+    
+    float step = 3;
+    NdotL = ceil(NdotL * step) / step; // Å÷ ½¦ÀÌµù.
     
     float4 final = NdotL * color;
     
-    return float4(NdotL, NdotL, NdotL, 1.0f);
-    //return final;
+    //return float4(NdotL, NdotL, NdotL, 1.0f);
+    return final;
 }

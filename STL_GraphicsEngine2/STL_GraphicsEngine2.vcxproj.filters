@@ -129,6 +129,12 @@
     <ClCompile Include="src\private\NormalMappingShader.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="src\private\GrassShader.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeBuffer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\public\DXApp.h">
@@ -242,6 +248,12 @@
     <ClInclude Include="src\public\NormalMappingShader.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="src\public\GrassShader.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="src\public\TimeBuffer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\shaders\BasicPS.hlsl" />
@@ -256,5 +268,7 @@
     <FxCompile Include="..\shaders\RimVS.hlsl" />
     <FxCompile Include="..\shaders\NormalMappingPS.hlsl" />
     <FxCompile Include="..\shaders\NormalMappingVS.hlsl" />
+    <FxCompile Include="..\shaders\GrassPS.hlsl" />
+    <FxCompile Include="..\shaders\GrassVS.hlsl" />
   </ItemGroup>
 </Project>
